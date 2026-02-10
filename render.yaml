@@ -1,0 +1,35 @@
+# Configuración automática para Render
+# Este archivo tells Render cómo buildear y desplegar la app
+
+services:
+  - type: web
+    name: appsalon
+    env: php
+    plan: free
+    
+    buildCommand: >
+      composer install --optimize-autoloader --no-dev &&
+      npm install &&
+      npm run dev
+    
+    startCommand: php -S 0.0.0.0:${PORT:-8080} -t public
+    
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        sync: false
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_DRIVER
+        value: pgsql
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        sync: false
