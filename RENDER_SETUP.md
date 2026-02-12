@@ -27,7 +27,7 @@
 2. Copia la **Connection String (Full URL):**
 
 ```
-postgresql://postgres:[PASSWORD]@db.xxxxx.supabase.co:5432/postgres
+postgresql://postgres:9987$!!Dz*79$Z5L8&$^@db.wutfzswiynhauqrhqngi.supabase.co:5432/postgres
 ```
 
 3. Anota: `[HOST]`, `[PASSWORD]` para después
@@ -68,10 +68,10 @@ Edita `.env` con tu configuración Supabase:
 
 ```env
 DB_DRIVER=pgsql
-DB_HOST=db.xxxxx.supabase.co
+DB_HOST=db.wutfzswiynhauqrhqngi.supabase.co
 DB_PORT=5432
 DB_USER=postgres
-DB_PASSWORD=[tu_password_supabase]
+DB_PASSWORD=9987$!!Dz*79$Z5L8&$^
 DB_NAME=postgres
 
 APP_ENV=production
@@ -87,9 +87,9 @@ docker build -t appsalon .
 
 # Ejecutar contenedor
 docker run -it --rm \
-  -e DB_HOST=db.xxxxx.supabase.co \
+  -e DB_HOST=db.wutfzswiynhauqrhqngi.supabase.co \
   -e DB_USER=postgres \
-  -e DB_PASSWORD=tu_password \
+  -e DB_PASSWORD=9987$!!Dz*79$Z5L8&$^ \
   -e DB_NAME=postgres \
   -p 8080:8080 \
   appsalon
