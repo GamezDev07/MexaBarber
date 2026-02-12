@@ -2,27 +2,48 @@
 @use 'base/mixins' as m;
 
 .formulario {
-    margin-top: 5rem;
+    margin-top: 2rem;
     width: 100%;
 }
 
 .campo {
     display: flex;
-    margin-bottom: 2rem;
-    align-items: center;
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+    flex-direction: column;
+
     label {
-        flex: 0 0 10rem;
+        flex: 0 0 auto;
+        margin-bottom: 0.5rem;
+        font-weight: v.$bold;
+        color: v.$negro;
+        font-size: 0.9rem;
     }
+
     input {
         flex: 1;
-        border: none;
-        padding: calc(v.$separacion / 4);
-        border-radius: 1rem;
+        width: 100%;
+        border: 1px solid lighten(v.$gris-oscuro, 30%);
+        background-color: v.$blanco;
+        padding: 0.8rem 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+
+        &:focus {
+            outline: none;
+            border-color: v.$azul;
+            box-shadow: 0 0 0 3px rgba(v.$azul, 0.2);
+        }
 
         &:disabled {
-            background-color: lighten(v.$negro, 30%);
-            color: v.$blanco;
+            background-color: v.$gris;
+            color: v.$gris-oscuro;
             cursor: not-allowed;
+            border-color: v.$gris;
+        }
+
+        &::placeholder {
+            color: lighten(v.$gris-oscuro, 20%);
         }
     }
 }

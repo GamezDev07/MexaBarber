@@ -10,9 +10,11 @@
 
     .servicio {
         background-color: v.$blanco;
+        border: 1px solid lighten(v.$gris-oscuro, 28%);
+        box-shadow: 0 4px 10px rgba(v.$negro, 0.08);
         padding: 3rem;
         border-radius: 1rem;
-        transition-property: transform;
+        transition-property: transform, box-shadow, border-color;
         transition-duration: 300ms;
         text-align: center;
 
@@ -25,6 +27,8 @@
 
         &:hover {
             transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(v.$negro, 0.12);
+            border-color: lighten(v.$azul, 30%);
         }
 
         p {
