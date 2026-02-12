@@ -151,14 +151,27 @@ class ActiveRecord {
         // Insertar en la base de datos
         $query = "INSERT INTO " . static::$tabla . " (" . join(', ', $campos) . ") VALUES (" . join(', ', $placeholders) . ")";
         
-        // Ejecutar con prepared statement
-        $stmt = self::$db->prepare($query);
-        $resultado = $stmt->execute(array_values($atributos));
-        
-        return [
-           'resultado' => $resultado,
-           'id' => self::$db->lastInsertId()
-        ];
+        try {
+            // Ejecutar con prepared statement
+            $stmt = self::$db->prepare($query);
+            $resultado = $stmt->execute(array_values($atributos));
+            
+            return [
+               'resultado' => $resultado,
+               'id' => self::$db->lastInsertId()
+            ];
+        } catch (\PDOException $e) {
+            // Manejar errores de base de datos
+            if(strpos($e->getMessage(), 'duplicate') !== false) {
+                self::$alertas['error'][] = 'Este registro ya existe en la base de datos';
+            } else {
+                self::$alertas['error'][] = 'Error al guardar: ' . $e->getMessage();
+            }
+            return [
+               'resultado' => false,
+               'id' => null
+            ];
+        }
     }
 
     // Actualizar el registro
@@ -180,18 +193,30 @@ class ActiveRecord {
         // Consulta SQL
         $query = "UPDATE " . static::$tabla . " SET " . join(', ', $valores) . " WHERE id = ? LIMIT 1";
         
-        // Ejecutar con prepared statement
-        $stmt = self::$db->prepare($query);
-        $resultado = $stmt->execute($valores_bind);
-        return $resultado;
+        try {
+            // Ejecutar con prepared statement
+            $stmt = self::$db->prepare($query);
+            $resultado = $stmt->execute($valores_bind);
+            return $resultado;
+        } catch (\PDOException $e) {
+            // Manejar errores de base de datos
+            self::$alertas['error'][] = 'Error al actualizar: ' . $e->getMessage();
+            return false;
+        }
     }
 
     // Eliminar un Registro por su ID
     public function eliminar() {
         $query = "DELETE FROM " . static::$tabla . " WHERE id = ? LIMIT 1";
-        $stmt = self::$db->prepare($query);
-        $resultado = $stmt->execute([$this->id]);
-        return $resultado;
+        try {
+            $stmt = self::$db->prepare($query);
+            $resultado = $stmt->execute([$this->id]);
+            return $resultado;
+        } catch (\PDOException $e) {
+            // Manejar errores de base de datos
+            self::$alertas['error'][] = 'Error al eliminar: ' . $e->getMessage();
+            return false;
+        }
     }
 
 }
