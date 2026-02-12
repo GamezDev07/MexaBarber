@@ -82,15 +82,19 @@ class Usuario extends ActiveRecord {
 
     // Revisa si el usuario ya existe
     public function existeUsuario() {
-        $query = " SELECT * FROM " . self::$tabla . " WHERE email = '" . $this->email . "' LIMIT 1";
+        $query = "SELECT id FROM " . self::$tabla . " WHERE email = :email LIMIT 1";
 
-        $resultado = self::$db->query($query);
+        $stmt = self::$db->prepare($query);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->execute();
 
-        if($resultado->num_rows) {
+        $usuario = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if($usuario) {
             self::$alertas['error'][] = 'El Usuario ya esta registrado';
         }
 
-        return $resultado;
+        return $usuario;
     }
 
     public function hashPassword() {
