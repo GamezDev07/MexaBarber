@@ -17,9 +17,9 @@ COPY gulpfile.js ./
 # Compilar SCSS y JS
 RUN npm run build 2>/dev/null || npx gulp
 
----
-
+# ============================================
 # Stage 2: Preparar aplicación PHP
+# ============================================
 FROM php:8.2-alpine
 
 WORKDIR /app
