@@ -1,11 +1,13 @@
 <?php
 
-// Cargar variables de entorno desde .env
+// Cargar variables de entorno desde .env (solo en desarrollo local)
 function loadEnv($filePath = __DIR__ . '/../.env') {
+    // Si el archivo .env NO existe (Render, producción), usar getenv() directamente
     if (!file_exists($filePath)) {
-        die('Error: Archivo .env no encontrado');
+        return; // Las variables deben estar en el environment
     }
 
+    // Si existe .env (desarrollo local), cargar desde ahí
     $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     
     foreach ($lines as $line) {
