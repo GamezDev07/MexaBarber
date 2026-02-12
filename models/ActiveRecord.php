@@ -205,7 +205,7 @@ class ActiveRecord {
         $valores_bind[] = $this->id;
 
         // Consulta SQL
-        $query = "UPDATE " . static::$tabla . " SET " . join(', ', $valores) . " WHERE id = ? LIMIT 1";
+        $query = "UPDATE " . static::$tabla . " SET " . join(', ', $valores) . " WHERE id = ?";
         
         try {
             // Ejecutar con prepared statement
@@ -221,7 +221,7 @@ class ActiveRecord {
 
     // Eliminar un Registro por su ID
     public function eliminar() {
-        $query = "DELETE FROM " . static::$tabla . " WHERE id = ? LIMIT 1";
+        $query = "DELETE FROM " . static::$tabla . " WHERE id = ?";
         try {
             $stmt = self::$db->prepare($query);
             $resultado = $stmt->execute([$this->id]);
