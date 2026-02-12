@@ -13,7 +13,7 @@
 5. Cuando se cree el proyecto, ve a **Settings > Database**
 6. Copia la "Connection string" (URI):
    ```
-   postgresql://postgres:[PASSWORD]@db.xxxxx.supabase.co:5432/postgres
+   postgresql://postgres:9987$!!Dz*79$Z5L8&$^@db.wutfzswiynhauqrhqngi.supabase.co:5432/postgres
    ```
 
 7. En tu proyecto local, actualiza `.env`:

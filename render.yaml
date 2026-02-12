@@ -1,29 +1,28 @@
-# Configuración automática para Render
-# Este archivo tells Render cómo buildear y desplegar la app
+# Configuración automática para Render con Docker
+# Este archivo configura Render para construir y desplegar con Docker
 
 services:
   - type: web
     name: appsalon
-    env: php
+    runtime: docker
     plan: free
     
-    buildCommand: >
-      composer install --optimize-autoloader --no-dev &&
-      npm install &&
-      npm run dev
-    
-    startCommand: php -S 0.0.0.0:${PORT:-8080} -t public
-    
+    # Variables de entorno
     envVars:
+      # Aplicación
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
         value: false
       - key: APP_URL
-        sync: false
+        fromDatabase:
+          name: DATABASE_URL
+      
+      # Base de datos PostgreSQL (Supabase)
       - key: DB_HOST
         sync: false
       - key: DB_PORT
+        value: 5432
         sync: false
       - key: DB_DRIVER
         value: pgsql
@@ -32,4 +31,8 @@ services:
       - key: DB_PASSWORD
         sync: false
       - key: DB_NAME
+        sync: false
+      
+      # Conexión completa PostgreSQL
+      - key: DATABASE_URL
         sync: false

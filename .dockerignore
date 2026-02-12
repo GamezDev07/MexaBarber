@@ -1,0 +1,48 @@
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Node
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# Composer
+vendor/
+composer.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Sistema
+.env.example
+.env.local
+*.log
+
+# Build
+public/build/ (temporalmente durante desarrollo local)
+
+# Archivos de deployment
+*.bat
+*.sh
+DEPLOY_GUIDE.md
+MIGRATION_PLAN.md
+CHANGES_SUMMARY.md
+FINAL_SUMMARY.md
+
+# Documentación
+SETUP.md
+README_CURRENT_STATE.md
+ARCHITECTURE.md
+DATABASE_FIX.md
+DEPLOYMENT_STATUS.md
+
+# Backup y SQL
+*.sql
+backup/
