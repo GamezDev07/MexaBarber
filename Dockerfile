@@ -8,14 +8,14 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 # Instalar dependencias de Node
-RUN npm ci --only=dev
+RUN npm install --legacy-peer-deps
 
 # Copiar archivos SCSS y JS
 COPY src/ ./src/
 COPY gulpfile.js ./
 
 # Compilar SCSS y JS
-RUN npm run build 2>/dev/null || npx gulp
+RUN npm run dev 2>/dev/null || npx gulp
 
 # ============================================
 # Stage 2: Preparar aplicación PHP
