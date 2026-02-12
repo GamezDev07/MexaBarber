@@ -113,24 +113,38 @@ class ActiveRecord {
 
     // Busca un registro por su id
     public static function find($id) {
-        $query = "SELECT * FROM " . static::$tabla  ." WHERE id = {$id}";
-
-        $resultado = self::consultarSQL($query);
-        return array_shift( $resultado ) ;
+        $query = "SELECT * FROM " . static::$tabla  ." WHERE id = ?";
+        $stmt = self::$db->prepare($query);
+        $stmt->execute([$id]);
+        $resultado = $stmt->fetch(\PDO::FETCH_ASSOC);
+        
+        if($resultado) {
+            return static::crearObjeto($resultado);
+        }
+        return null;
     }
 
     // Obtener Registros con cierta cantidad
     public static function get($limite) {
-        $query = "SELECT * FROM " . static::$tabla . " LIMIT {$limite}";
-        $resultado = self::consultarSQL($query);
-        return array_shift( $resultado ) ;
+        $query = "SELECT * FROM " . static::$tabla . " LIMIT ?";
+        $stmt = self::$db->prepare($query);
+        $stmt->bindParam(1, $limite, \PDO::PARAM_INT);
+        $stmt->execute();
+        $resultado = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $resultado ? static::crearObjeto($resultado) : null;
     }
 
-    // Busca un registro por su id
+    // Busca un registro por un campo específico
     public static function where($columna, $valor) {
-        $query = "SELECT * FROM " . static::$tabla  ." WHERE {$columna} = '{$valor}'";
-        $resultado = self::consultarSQL($query);
-        return array_shift( $resultado ) ;
+        $query = "SELECT * FROM " . static::$tabla  ." WHERE {$columna} = ?";
+        $stmt = self::$db->prepare($query);
+        $stmt->execute([$valor]);
+        $resultado = $stmt->fetch(\PDO::FETCH_ASSOC);
+        
+        if($resultado) {
+            return static::crearObjeto($resultado);
+        }
+        return null;
     }
 
     // Consulta Plana de SQL (Utilizar cuando los métodos del modelo no son suficientes)
