@@ -29,7 +29,7 @@ class Email {
          $mail->Password = $_ENV['MAIL_PASSWORD'];
      
          $mail->setFrom($_ENV['MAIL_FROM']);
-         $mail->addAddress($_ENV['MAIL_FROM'], 'AppSalon.com');
+         $mail->addAddress($this->email, $this->nombre);
          $mail->Subject = 'Confirma tu Cuenta';
 
          // Set HTML
@@ -60,7 +60,7 @@ class Email {
         $mail->Password = $_ENV['MAIL_PASSWORD'];
     
         $mail->setFrom($_ENV['MAIL_FROM']);
-        $mail->addAddress($_ENV['MAIL_FROM'], 'AppSalon.com');
+        $mail->addAddress($this->email, $this->nombre);
         $mail->Subject = 'Reestablece tu password';
 
         // Set HTML
