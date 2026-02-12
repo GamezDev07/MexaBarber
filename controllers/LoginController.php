@@ -159,7 +159,7 @@ class LoginController {
                     $usuario->crearToken();
 
                     // Enviar el Email
-                    $email = new Email($usuario->nombre, $usuario->email, $usuario->token);
+                    $email = new Email($usuario->email, $usuario->nombre, $usuario->token);
                     $email->enviarConfirmacion();
 
                     // Crear el usuario
@@ -194,8 +194,13 @@ class LoginController {
             // Modificar a usuario confirmado
             $usuario->confirmado = "1";
             $usuario->token = null;
-            $usuario->guardar();
-            Usuario::setAlerta('exito', 'Cuenta Comprobada Correctamente');
+            $resultado = $usuario->guardar();
+
+            if($resultado) {
+                Usuario::setAlerta('exito', 'Cuenta Comprobada Correctamente');
+            } else {
+                Usuario::setAlerta('error', 'No se pudo confirmar la cuenta. Intenta nuevamente.');
+            }
         }
        
         // Obtener alertas
