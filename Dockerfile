@@ -1,25 +1,5 @@
-# Multi-stage build para AppSalon
-# Stage 1: Compilar assets (SCSS, JS)
-FROM node:20-alpine AS assets
-
-WORKDIR /app
-
-# Copiar package.json y package-lock.json
-COPY package.json package-lock.json* ./
-
-# Instalar dependencias de Node
-RUN npm install --legacy-peer-deps
-
-# Copiar archivos SCSS y JS
-COPY src/ ./src/
-COPY gulpfile.js ./
-
-# Compilar SCSS y JS
-RUN npm run dev 2>/dev/null || npx gulp
-
-# ============================================
-# Stage 2: Preparar aplicación PHP
-# ============================================
+# AppSalon - PHP Runtime
+# Assets (SCSS/JS) se compilaron localmente con: npm run dev
 FROM php:8.2-alpine
 
 WORKDIR /app
@@ -37,11 +17,8 @@ RUN apk add --no-cache \
 # Instalar Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Copiar archivos de la aplicación
+# Copiar proyecto completo (incluyendo public/build compilado)
 COPY . .
-
-# Copiar assets compilados desde stage 1
-COPY --from=assets /app/public/build /app/public/build
 
 # Instalar dependencias PHP
 RUN composer install --no-interaction --no-dev --optimize-autoloader
