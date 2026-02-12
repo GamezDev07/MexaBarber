@@ -1,19 +1,25 @@
 @use 'base/variables' as v;
 
 .alerta {
-    padding: calc(v.$separacion / 4);
+    padding: 1rem;
     color: v.$blanco;
     width: 100%;
     display: block;
     margin-bottom: 2rem;
-    text-align: center;
-    font-weight: v.$bold;
-    text-transform: uppercase;
+    text-align: left;
+    font-weight: v.$regular;
+    font-size: 0.9rem;
+    border-radius: 0.5rem;
+    text-transform: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     &.error {
         background-color: v.$rojo;
+        border-left: 5px solid darken(v.$rojo, 20%);
     }
+
     &.exito {
         background-color: v.$verde;
+        border-left: 5px solid darken(v.$verde, 20%);
     }
 }
