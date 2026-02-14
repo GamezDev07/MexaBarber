@@ -13,8 +13,15 @@
         background-image: url(../img/1.jpg);
         background-size: cover;
         background-position: center center;
+        
+        // --- EFECTO KEN BURNS SUAVE ---
+        animation: zoomIn 20s infinite alternate;
+        
         @include m.tablet {
-            height: auto;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
     }
 
@@ -22,9 +29,37 @@
         width: 95%;
         margin: 0 auto;
         padding: 3rem 0;
+        
+        // --- ANIMACIÓN DE ENTRADA SUAVE ---
+        animation: entradaSuave 1s ease-out;
+        
         @include m.tablet {
-            overflow: scroll;
+            overflow: visible;
         }
+    }
+}
+
+// --- DEFINICIÓN DE ANIMACIONES ---
+
+// Hace que el contenido aparezca de abajo hacia arriba desvaneciéndose
+@keyframes entradaSuave {
+    0% {
+        opacity: 0;
+        transform: translateY(2rem);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Efecto de "respiración" para la imagen (Ken Burns suave)
+@keyframes zoomIn {
+    0% {
+        background-size: 100%;
+    }
+    100% {
+        background-size: 110%;
     }
 }
 
