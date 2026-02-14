@@ -1,23 +1,35 @@
 <h1 class="nombre-pagina">Crear Nueva Cita</h1>
 <p class="descripcion-pagina">Elige tus servicios y coloca tus datos</p>
 
-<?php 
+<?php
     include_once __DIR__ . '/../templates/barra.php';
 ?>
 
 <div id="app">
     <nav class="tabs">
         <button class="actual" type="button" data-paso="1">Servicios</button>
-        <button type="button" data-paso="2">Información Cita</button>
-        <button type="button" data-paso="3">Resumen</button>
+        <button type="button" data-paso="2">Barbero</button>
+        <button type="button" data-paso="3">Información Cita</button>
+        <button type="button" data-paso="4">Método de Pago</button>
+        <button type="button" data-paso="5">Resumen</button>
     </nav>
 
+    <!-- Paso 1: Servicios -->
     <div id="paso-1" class="seccion">
         <h2>Servicios</h2>
         <p class="text-center">Elige tus servicios a continuación</p>
         <div id="servicios" class="listado-servicios"></div>
     </div>
+
+    <!-- Paso 2: Selección de Barbero -->
     <div id="paso-2" class="seccion">
+        <h2>Elige tu Barbero</h2>
+        <p class="text-center">Selecciona un barbero o deja que te asignemos uno</p>
+        <div id="barberos" class="listado-barberos"></div>
+    </div>
+
+    <!-- Paso 3: Datos y Fecha -->
+    <div id="paso-3" class="seccion">
         <h2>Tus Datos y Cita</h2>
         <p class="text-center">Coloca tus datos y fecha de tu cita</p>
 
@@ -53,25 +65,51 @@
 
         </form>
     </div>
-    <div id="paso-3" class="seccion contenido-resumen">
+
+    <!-- Paso 4: Método de Pago -->
+    <div id="paso-4" class="seccion">
+        <h2>Método de Pago</h2>
+        <p class="text-center">Elige cómo deseas pagar</p>
+
+        <div id="metodos-pago" class="listado-metodos-pago">
+            <div class="metodo-pago" data-metodo="efectivo">
+                <span class="metodo-pago__icono">💵</span>
+                <p class="metodo-pago__nombre">Efectivo</p>
+                <p class="metodo-pago__descripcion">Paga al llegar al establecimiento</p>
+            </div>
+            <div class="metodo-pago" data-metodo="tarjeta">
+                <span class="metodo-pago__icono">💳</span>
+                <p class="metodo-pago__nombre">Tarjeta en Establecimiento</p>
+                <p class="metodo-pago__descripcion">Paga con tarjeta al llegar</p>
+            </div>
+            <div class="metodo-pago" data-metodo="transferencia">
+                <span class="metodo-pago__icono">🏦</span>
+                <p class="metodo-pago__nombre">Transferencia Bancaria</p>
+                <p class="metodo-pago__descripcion">Realiza una transferencia y sube tu comprobante</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paso 5: Resumen -->
+    <div id="paso-5" class="seccion contenido-resumen">
         <h2>Resumen</h2>
         <p class="text-center">Verifica que la información sea correcta</p>
     </div>
 
     <div class="paginacion">
-        <button 
+        <button
             id="anterior"
             class="boton"
         >&laquo; Anterior</button>
 
-        <button 
+        <button
             id="siguiente"
             class="boton"
         >Siguiente &raquo;</button>
     </div>
 </div>
 
-<?php 
+<?php
     $script = "
         <script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script>
         <script src='build/js/app.js'></script>

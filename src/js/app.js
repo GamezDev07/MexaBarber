@@ -1,13 +1,16 @@
 let paso = 1;
 const pasoInicial = 1;
-const pasoFinal = 3;
+const pasoFinal = 5;
 
 const cita = {
     id: '',
     nombre: '',
     fecha: '',
     hora: '',
-    servicios: []
+    servicios: [],
+    barberoId: '',
+    barberoNombre: '',
+    metodoPago: ''
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -15,24 +18,25 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function iniciarApp() {
-    mostrarSeccion(); // Muestra y oculta las secciones
-    tabs(); // Cambia la sección cuando se presionen los tabs
-    botonesPaginador(); // Agrega o quita los botones del paginador
-    paginaSiguiente(); 
+    mostrarSeccion();
+    tabs();
+    botonesPaginador();
+    paginaSiguiente();
     paginaAnterior();
 
-    consultarAPI(); // Consulta la API en el backend de PHP
+    consultarAPI(); // Servicios
+    consultarBarberos(); // Barberos
 
     idCliente();
-    nombreCliente(); // Añade el nombre del cliente al objeto de cita
-    seleccionarFecha(); // Añade la fecha de la cita en el objeto
-    seleccionarHora(); // Añade la hora de la cita en el objeto
+    nombreCliente();
+    seleccionarFecha();
+    seleccionarHora();
+    seleccionarMetodoPago();
 
-    mostrarResumen(); // Muestra el resumen de la cita
+    mostrarResumen();
 }
 
 function mostrarSeccion() {
-
     // Ocultar la sección que tenga la clase de mostrar
     const seccionAnterior = document.querySelector('.mostrar');
     if(seccionAnterior) {
@@ -56,17 +60,13 @@ function mostrarSeccion() {
 }
 
 function tabs() {
-
-    // Agrega y cambia la variable de paso según el tab seleccionado
     const botones = document.querySelectorAll('.tabs button');
     botones.forEach( boton => {
         boton.addEventListener('click', function(e) {
             e.preventDefault();
-
             paso = parseInt( e.target.dataset.paso );
             mostrarSeccion();
-
-            botonesPaginador(); 
+            botonesPaginador();
         });
     });
 }
@@ -78,7 +78,7 @@ function botonesPaginador() {
     if(paso === 1) {
         paginaAnterior.classList.add('ocultar');
         paginaSiguiente.classList.remove('ocultar');
-    } else if (paso === 3) {
+    } else if (paso === pasoFinal) {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.add('ocultar');
 
@@ -94,32 +94,28 @@ function botonesPaginador() {
 function paginaAnterior() {
     const paginaAnterior = document.querySelector('#anterior');
     paginaAnterior.addEventListener('click', function() {
-
         if(paso <= pasoInicial) return;
         paso--;
-        
         botonesPaginador();
     })
 }
 function paginaSiguiente() {
     const paginaSiguiente = document.querySelector('#siguiente');
     paginaSiguiente.addEventListener('click', function() {
-
         if(paso >= pasoFinal) return;
         paso++;
-        
         botonesPaginador();
     })
 }
 
-async function consultarAPI() {
+// --- PASO 1: SERVICIOS ---
 
+async function consultarAPI() {
     try {
         const url = window.location.origin + '/api/servicios';
         const resultado = await fetch(url);
         const servicios = await resultado.json();
         mostrarServicios(servicios);
-    
     } catch (error) {
         console.log(error);
     }
@@ -127,7 +123,7 @@ async function consultarAPI() {
 
 function mostrarServicios(servicios) {
     servicios.forEach( servicio => {
-        const { id, nombre, precio } = servicio;
+        const { id, nombre, precio } = servicio;
 
         const nombreServicio = document.createElement('P');
         nombreServicio.classList.add('nombre-servicio');
@@ -148,7 +144,6 @@ function mostrarServicios(servicios) {
         servicioDiv.appendChild(precioServicio);
 
         document.querySelector('#servicios').appendChild(servicioDiv);
-
     });
 }
 
@@ -156,21 +151,106 @@ function seleccionarServicio(servicio) {
     const { id } = servicio;
     const { servicios } = cita;
 
-    // Identificar el elemento al que se le da click
     const divServicio = document.querySelector(`[data-id-servicio="${id}"]`);
 
-    // Comprobar si un servicio ya fue agregado 
     if( servicios.some( agregado => agregado.id === id ) ) {
-        // Eliminarlo
         cita.servicios = servicios.filter( agregado => agregado.id !== id );
         divServicio.classList.remove('seleccionado');
     } else {
-        // Agregarlo
         cita.servicios = [...servicios, servicio];
         divServicio.classList.add('seleccionado');
     }
-    // console.log(cita);
 }
+
+// --- PASO 2: BARBEROS ---
+
+async function consultarBarberos() {
+    try {
+        const url = window.location.origin + '/api/barberos';
+        const resultado = await fetch(url);
+        const barberos = await resultado.json();
+        mostrarBarberos(barberos);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function mostrarBarberos(barberos) {
+    const contenedor = document.querySelector('#barberos');
+
+    // Opción "Sin preferencia"
+    const sinPreferencia = document.createElement('DIV');
+    sinPreferencia.classList.add('barbero');
+    sinPreferencia.dataset.barberoId = '';
+    sinPreferencia.onclick = function() {
+        seleccionarBarbero('', 'Sin preferencia');
+    }
+
+    const iconoSin = document.createElement('P');
+    iconoSin.classList.add('barbero__icono');
+    iconoSin.textContent = '🔄';
+
+    const nombreSin = document.createElement('P');
+    nombreSin.classList.add('barbero__nombre');
+    nombreSin.textContent = 'Sin Preferencia';
+
+    const descSin = document.createElement('P');
+    descSin.classList.add('barbero__especialidad');
+    descSin.textContent = 'Asignación automática';
+
+    sinPreferencia.appendChild(iconoSin);
+    sinPreferencia.appendChild(nombreSin);
+    sinPreferencia.appendChild(descSin);
+    contenedor.appendChild(sinPreferencia);
+
+    // Barberos disponibles
+    barberos.forEach( barbero => {
+        const { id, nombre, especialidad } = barbero;
+
+        const barberoDiv = document.createElement('DIV');
+        barberoDiv.classList.add('barbero');
+        barberoDiv.dataset.barberoId = id;
+        barberoDiv.onclick = function() {
+            seleccionarBarbero(id, nombre);
+        }
+
+        const icono = document.createElement('P');
+        icono.classList.add('barbero__icono');
+        icono.textContent = '✂️';
+
+        const nombreBarbero = document.createElement('P');
+        nombreBarbero.classList.add('barbero__nombre');
+        nombreBarbero.textContent = nombre;
+
+        const espBarbero = document.createElement('P');
+        espBarbero.classList.add('barbero__especialidad');
+        espBarbero.textContent = especialidad || 'Barbero';
+
+        barberoDiv.appendChild(icono);
+        barberoDiv.appendChild(nombreBarbero);
+        barberoDiv.appendChild(espBarbero);
+        contenedor.appendChild(barberoDiv);
+    });
+}
+
+function seleccionarBarbero(id, nombre) {
+    cita.barberoId = id;
+    cita.barberoNombre = nombre;
+
+    // Quitar seleccionado anterior
+    const barberoAnterior = document.querySelector('.barbero.seleccionado');
+    if(barberoAnterior) {
+        barberoAnterior.classList.remove('seleccionado');
+    }
+
+    // Marcar seleccionado
+    const barberoSeleccionado = document.querySelector(`[data-barbero-id="${id}"]`);
+    if(barberoSeleccionado) {
+        barberoSeleccionado.classList.add('seleccionado');
+    }
+}
+
+// --- PASO 3: DATOS ---
 
 function idCliente() {
     cita.id = document.querySelector('#id').value;
@@ -182,7 +262,6 @@ function nombreCliente() {
 function seleccionarFecha() {
     const inputFecha = document.querySelector('#fecha');
     inputFecha.addEventListener('input', function(e) {
-
         const dia = new Date(e.target.value).getUTCDay();
 
         if( [6, 0].includes(dia) ) {
@@ -191,15 +270,12 @@ function seleccionarFecha() {
         } else {
             cita.fecha = e.target.value;
         }
-        
     });
 }
 
 function seleccionarHora() {
     const inputHora = document.querySelector('#hora');
     inputHora.addEventListener('input', function(e) {
-
-
         const horaCita = e.target.value;
         const hora = horaCita.split(":")[0];
         if(hora < 10 || hora > 18) {
@@ -207,21 +283,39 @@ function seleccionarHora() {
             mostrarAlerta('Hora No Válida', 'error', '.formulario');
         } else {
             cita.hora = e.target.value;
-
-            // console.log(cita);
         }
     })
 }
 
-function mostrarAlerta(mensaje, tipo, elemento, desaparece = true) {
+// --- PASO 4: MÉTODO DE PAGO ---
 
-    // Previene que se generen más de 1 alerta
+function seleccionarMetodoPago() {
+    const metodos = document.querySelectorAll('.metodo-pago');
+    metodos.forEach( metodo => {
+        metodo.addEventListener('click', function(e) {
+            const metodoSeleccionado = e.currentTarget.dataset.metodo;
+            cita.metodoPago = metodoSeleccionado;
+
+            // Quitar seleccionado anterior
+            const anterior = document.querySelector('.metodo-pago.seleccionado');
+            if(anterior) {
+                anterior.classList.remove('seleccionado');
+            }
+
+            // Marcar nuevo
+            e.currentTarget.classList.add('seleccionado');
+        });
+    });
+}
+
+// --- ALERTAS ---
+
+function mostrarAlerta(mensaje, tipo, elemento, desaparece = true) {
     const alertaPrevia = document.querySelector('.alerta');
     if(alertaPrevia) {
         alertaPrevia.remove();
     }
 
-    // Scripting para crear la alerta
     const alerta = document.createElement('DIV');
     alerta.textContent = mensaje;
     alerta.classList.add('alerta');
@@ -231,14 +325,13 @@ function mostrarAlerta(mensaje, tipo, elemento, desaparece = true) {
     referencia.appendChild(alerta);
 
     if(desaparece) {
-        // Eliminar la alerta
         setTimeout(() => {
             alerta.remove();
         }, 3000);
     }
-  
 }
 
+// --- PASO 5: RESUMEN ---
 
 function mostrarResumen() {
     const resumen = document.querySelector('.contenido-resumen');
@@ -249,15 +342,11 @@ function mostrarResumen() {
     }
 
     if(Object.values(cita).includes('') || cita.servicios.length === 0 ) {
-        mostrarAlerta('Faltan datos de Servicios, Fecha u Hora', 'error', '.contenido-resumen', false);
-
+        mostrarAlerta('Faltan datos de Servicios, Barbero, Fecha, Hora o Método de Pago', 'error', '.contenido-resumen', false);
         return;
-    } 
+    }
 
-    // Formatear el div de resumen
-    const { nombre, fecha, hora, servicios } = cita;
-
-
+    const { nombre, fecha, hora, servicios, barberoNombre, metodoPago } = cita;
 
     // Heading para Servicios en Resumen
     const headingServicios = document.createElement('H3');
@@ -265,6 +354,7 @@ function mostrarResumen() {
     resumen.appendChild(headingServicios);
 
     // Iterando y mostrando los servicios
+    let totalPrecio = 0;
     servicios.forEach(servicio => {
         const { id, precio, nombre } = servicio;
         const contenedorServicio = document.createElement('DIV');
@@ -280,7 +370,14 @@ function mostrarResumen() {
         contenedorServicio.appendChild(precioServicio);
 
         resumen.appendChild(contenedorServicio);
+        totalPrecio += parseFloat(precio);
     });
+
+    // Total
+    const totalDiv = document.createElement('P');
+    totalDiv.classList.add('total');
+    totalDiv.innerHTML = `<span>Total:</span> $${totalPrecio.toFixed(2)}`;
+    resumen.appendChild(totalDiv);
 
     // Heading para Cita en Resumen
     const headingCita = document.createElement('H3');
@@ -297,7 +394,7 @@ function mostrarResumen() {
     const year = fechaObj.getFullYear();
 
     const fechaUTC = new Date( Date.UTC(year, mes, dia));
-    
+
     const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
     const fechaFormateada = fechaUTC.toLocaleDateString('es-MX', opciones);
 
@@ -306,6 +403,17 @@ function mostrarResumen() {
 
     const horaCita = document.createElement('P');
     horaCita.innerHTML = `<span>Hora:</span> ${hora} Horas`;
+
+    const barberoCita = document.createElement('P');
+    barberoCita.innerHTML = `<span>Barbero:</span> ${barberoNombre}`;
+
+    const metodoPagoMap = {
+        'efectivo': 'Efectivo',
+        'tarjeta': 'Tarjeta en Establecimiento',
+        'transferencia': 'Transferencia Bancaria'
+    };
+    const pagoCita = document.createElement('P');
+    pagoCita.innerHTML = `<span>Método de Pago:</span> ${metodoPagoMap[metodoPago] || metodoPago}`;
 
     // Boton para Crear una cita
     const botonReservar = document.createElement('BUTTON');
@@ -316,28 +424,27 @@ function mostrarResumen() {
     resumen.appendChild(nombreCliente);
     resumen.appendChild(fechaCita);
     resumen.appendChild(horaCita);
-
+    resumen.appendChild(barberoCita);
+    resumen.appendChild(pagoCita);
     resumen.appendChild(botonReservar);
 }
 
 async function reservarCita() {
-    
-    const { nombre, fecha, hora, servicios, id } = cita;
+
+    const { nombre, fecha, hora, servicios, id, barberoId, metodoPago } = cita;
 
     const idServicios = servicios.map( servicio => servicio.id );
-    // console.log(idServicios);
 
     const datos = new FormData();
-    
+
     datos.append('fecha', fecha);
-    datos.append('hora', hora );
+    datos.append('hora', hora );
     datos.append('usuarioId', id);
     datos.append('servicios', idServicios);
-
-    // console.log([...datos]);
+    datos.append('barberoId', barberoId);
+    datos.append('metodoPago', metodoPago);
 
     try {
-        // Petición hacia la api
         const url = window.location.origin + '/api/citas'
         const respuesta = await fetch(url, {
             method: 'POST',
@@ -345,13 +452,14 @@ async function reservarCita() {
         });
 
         const resultado = await respuesta.json();
-        console.log(resultado);
-        
+
         if(resultado.resultado) {
             Swal.fire({
                 icon: 'success',
                 title: 'Cita Creada',
-                text: 'Tu cita fue creada correctamente',
+                text: resultado.turno
+                    ? `Tu cita fue creada correctamente. Tu turno es el #${resultado.turno}`
+                    : 'Tu cita fue creada correctamente',
                 button: 'OK'
             }).then( () => {
                 setTimeout(() => {
@@ -366,8 +474,4 @@ async function reservarCita() {
             text: 'Hubo un error al guardar la cita'
         })
     }
-
-    
-    // console.log([...datos]);
-
 }
