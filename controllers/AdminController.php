@@ -28,12 +28,12 @@ class AdminController {
         $consulta .= " ON citasServicios.citaId=citas.id ";
         $consulta .= " LEFT OUTER JOIN servicios ";
         $consulta .= " ON servicios.id=citasServicios.servicioId ";
-        $consulta .= " WHERE fecha =  '${fecha}' ";
+        $consulta .= " WHERE fecha = '{$fecha}' ";
 
         $citas = AdminCita::SQL($consulta);
 
         $router->render('admin/index', [
-            'nombre' => $_SESSION['nombre'],
+            'nombre' => $_SESSION['nombre'] ?? '',
             'citas' => $citas, 
             'fecha' => $fecha
         ]);
