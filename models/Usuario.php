@@ -5,7 +5,7 @@ namespace Model;
 class Usuario extends ActiveRecord {
     // Base de datos
     protected static $tabla = 'usuarios';
-    protected static $columnasDB = ['id', 'nombre', 'apellido', 'email', 'password', 'telefono', 'admin', 'confirmado', 'token'];
+    protected static $columnasDB = ['id', 'nombre', 'apellido', 'email', 'password', 'telefono', 'admin', 'confirmado', 'token', 'barbershop_id'];
 
     public $id;
     public $nombre;
@@ -16,6 +16,7 @@ class Usuario extends ActiveRecord {
     public $admin;
     public $confirmado;
     public $token;
+    public $barbershop_id;
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
@@ -27,6 +28,7 @@ class Usuario extends ActiveRecord {
         $this->admin = $args['admin'] ?? '0';
         $this->confirmado = $args['confirmado'] ?? '0';
         $this->token = $args['token'] ?? '';
+        $this->barbershop_id = $args['barbershop_id'] ?? null;
     }
 
     // Mensajes de validación para la creación de una cuenta

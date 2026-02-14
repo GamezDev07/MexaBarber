@@ -31,12 +31,21 @@ $router->get('/mensaje', [LoginController::class, 'mensaje']);
 
 // AREA PRIVADA
 $router->get('/cita', [CitaController::class, 'index']);
+$router->get('/mis-citas', [CitaController::class, 'misCitas']);
 $router->get('/admin', [AdminController::class, 'index']);
 
 // API de Citas
 $router->get('/api/servicios', [APIController::class, 'index']);
+$router->get('/api/barberos', [APIController::class, 'barberos']);
 $router->post('/api/citas', [APIController::class, 'guardar']);
 $router->post('/api/eliminar', [APIController::class, 'eliminar']);
+$router->get('/api/mis-citas', [APIController::class, 'misCitas']);
+$router->post('/api/citas/cancelar', [APIController::class, 'cancelarCita']);
+$router->post('/api/citas/modificar', [APIController::class, 'modificarCita']);
+
+// API de Notificaciones
+$router->get('/api/notificaciones', [APIController::class, 'notificaciones']);
+$router->post('/api/notificaciones/leer', [APIController::class, 'leerNotificacion']);
 
 // CRUD de Servicios
 $router->get('/servicios', [ServicioController::class, 'index']);

@@ -33,3 +33,11 @@ function isAdmin() : void {
         header('Location: /');
     }
 }
+
+function getBarbershopId() : ?int {
+    return $_SESSION['barbershop_id'] ?? null;
+}
+
+function isBarbero() : bool {
+    return isset($_SESSION['barbero_id']);
+}
