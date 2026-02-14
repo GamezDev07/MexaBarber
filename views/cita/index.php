@@ -71,22 +71,34 @@
         <h2>Método de Pago</h2>
         <p class="text-center">Elige cómo deseas pagar</p>
 
-        <div id="metodos-pago" class="listado-metodos-pago">
-            <div class="metodo-pago" data-metodo="efectivo">
-                <span class="metodo-pago__icono">💵</span>
-                <p class="metodo-pago__nombre">Efectivo</p>
-                <p class="metodo-pago__descripcion">Paga al llegar al establecimiento</p>
-            </div>
-            <div class="metodo-pago" data-metodo="tarjeta">
-                <span class="metodo-pago__icono">💳</span>
-                <p class="metodo-pago__nombre">Tarjeta en Establecimiento</p>
-                <p class="metodo-pago__descripcion">Paga con tarjeta al llegar</p>
-            </div>
-            <div class="metodo-pago" data-metodo="transferencia">
-                <span class="metodo-pago__icono">🏦</span>
-                <p class="metodo-pago__nombre">Transferencia Bancaria</p>
-                <p class="metodo-pago__descripcion">Realiza una transferencia y sube tu comprobante</p>
-            </div>
+        <div id="metodos-pago" class="metodos-pago-radio">
+            <label class="metodo-radio">
+                <input type="radio" name="metodoPago" value="efectivo">
+                <span class="metodo-radio__check"></span>
+                <span class="metodo-radio__icono">💵</span>
+                <span class="metodo-radio__info">
+                    <span class="metodo-radio__nombre">Efectivo</span>
+                    <span class="metodo-radio__descripcion">Paga al llegar al establecimiento</span>
+                </span>
+            </label>
+            <label class="metodo-radio">
+                <input type="radio" name="metodoPago" value="tarjeta">
+                <span class="metodo-radio__check"></span>
+                <span class="metodo-radio__icono">💳</span>
+                <span class="metodo-radio__info">
+                    <span class="metodo-radio__nombre">Tarjeta en Establecimiento</span>
+                    <span class="metodo-radio__descripcion">Paga con tarjeta al llegar</span>
+                </span>
+            </label>
+            <label class="metodo-radio">
+                <input type="radio" name="metodoPago" value="transferencia">
+                <span class="metodo-radio__check"></span>
+                <span class="metodo-radio__icono">🏦</span>
+                <span class="metodo-radio__info">
+                    <span class="metodo-radio__nombre">Transferencia Bancaria</span>
+                    <span class="metodo-radio__descripcion">Realiza una transferencia y sube tu comprobante</span>
+                </span>
+            </label>
         </div>
     </div>
 

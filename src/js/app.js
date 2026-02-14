@@ -290,20 +290,10 @@ function seleccionarHora() {
 // --- PASO 4: MÉTODO DE PAGO ---
 
 function seleccionarMetodoPago() {
-    const metodos = document.querySelectorAll('.metodo-pago');
-    metodos.forEach( metodo => {
-        metodo.addEventListener('click', function(e) {
-            const metodoSeleccionado = e.currentTarget.dataset.metodo;
-            cita.metodoPago = metodoSeleccionado;
-
-            // Quitar seleccionado anterior
-            const anterior = document.querySelector('.metodo-pago.seleccionado');
-            if(anterior) {
-                anterior.classList.remove('seleccionado');
-            }
-
-            // Marcar nuevo
-            e.currentTarget.classList.add('seleccionado');
+    const radios = document.querySelectorAll('input[name="metodoPago"]');
+    radios.forEach( radio => {
+        radio.addEventListener('change', function(e) {
+            cita.metodoPago = e.target.value;
         });
     });
 }
@@ -415,18 +405,59 @@ function mostrarResumen() {
     const pagoCita = document.createElement('P');
     pagoCita.innerHTML = `<span>Método de Pago:</span> ${metodoPagoMap[metodoPago] || metodoPago}`;
 
-    // Boton para Crear una cita
-    const botonReservar = document.createElement('BUTTON');
-    botonReservar.classList.add('boton');
-    botonReservar.textContent = 'Reservar Cita';
-    botonReservar.onclick = reservarCita;
+    // Boton para Confirmar cita
+    const botonConfirmar = document.createElement('BUTTON');
+    botonConfirmar.classList.add('boton');
+    botonConfirmar.textContent = 'Confirmar Cita';
+    botonConfirmar.onclick = confirmarCita;
 
     resumen.appendChild(nombreCliente);
     resumen.appendChild(fechaCita);
     resumen.appendChild(horaCita);
     resumen.appendChild(barberoCita);
     resumen.appendChild(pagoCita);
-    resumen.appendChild(botonReservar);
+    resumen.appendChild(botonConfirmar);
+}
+
+async function confirmarCita() {
+    const { nombre, fecha, hora, servicios, barberoNombre, metodoPago } = cita;
+
+    const metodoPagoMap = {
+        'efectivo': 'Efectivo',
+        'tarjeta': 'Tarjeta en Establecimiento',
+        'transferencia': 'Transferencia Bancaria'
+    };
+
+    const listaServicios = servicios.map(s => `- ${s.nombre} ($${s.precio})`).join('\n');
+    const totalPrecio = servicios.reduce((sum, s) => sum + parseFloat(s.precio), 0).toFixed(2);
+
+    const resultado = await Swal.fire({
+        title: '¿Sus datos están correctos?',
+        icon: 'question',
+        html: `
+            <div style="text-align:left; font-size:1.4rem; line-height:1.8;">
+                <p><strong>Nombre:</strong> ${nombre}</p>
+                <p><strong>Fecha:</strong> ${fecha}</p>
+                <p><strong>Hora:</strong> ${hora}</p>
+                <p><strong>Barbero:</strong> ${barberoNombre}</p>
+                <p><strong>Método de Pago:</strong> ${metodoPagoMap[metodoPago] || metodoPago}</p>
+                <hr style="margin: 1rem 0;">
+                <p><strong>Servicios:</strong></p>
+                ${servicios.map(s => `<p style="margin:0.2rem 0;">- ${s.nombre} <strong>$${s.precio}</strong></p>`).join('')}
+                <hr style="margin: 1rem 0;">
+                <p style="font-size:1.6rem;"><strong>Total: $${totalPrecio}</strong></p>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Sí, reservar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#2563EB',
+        cancelButtonColor: '#6B7280'
+    });
+
+    if(resultado.isConfirmed) {
+        reservarCita();
+    }
 }
 
 async function reservarCita() {

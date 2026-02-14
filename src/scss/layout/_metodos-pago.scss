@@ -1,69 +1,89 @@
 @use 'base/variables' as v;
-@use 'base/mixins' as m;
 
-.listado-metodos-pago {
-    display: grid;
-    gap: 2rem;
-    @include m.tablet {
-        @include m.grid(3, 2rem);
+.metodos-pago-radio {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.metodo-radio {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: v.$blanco;
+    padding: 2rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    border: 2px solid v.$gris;
+    transition: border-color 300ms, box-shadow 300ms;
+
+    &:hover {
+        border-color: v.$azul;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
-    .metodo-pago {
-        background-color: v.$blanco;
-        padding: 3rem;
-        border-radius: 1rem;
-        text-align: center;
-        cursor: pointer;
-        border: 2px solid transparent;
-        transition: transform 300ms, box-shadow 300ms, border-color 300ms;
-        position: relative;
+    // Ocultar radio nativo
+    input[type="radio"] {
+        display: none;
 
-        &:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        &.seleccionado {
+        &:checked ~ .metodo-radio__check {
             border-color: v.$azul;
-            transform: scale(1.05);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            background-color: v.$azul;
 
             &::after {
-                content: '✔';
-                position: absolute;
-                top: -10px;
-                right: -10px;
-                background-color: v.$azul;
-                color: v.$blanco;
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-                font-size: 1.2rem;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                transform: scale(1);
             }
         }
 
-        &__icono {
-            font-size: 4rem;
-            display: block;
-            margin: 0 0 1rem 0;
+        &:checked ~ .metodo-radio__info .metodo-radio__nombre {
+            color: v.$azul;
         }
+    }
 
-        &__nombre {
-            color: v.$negro;
-            font-weight: v.$bold;
-            font-size: 1.8rem;
-            margin: 0 0 0.5rem 0;
-        }
+    &__check {
+        width: 22px;
+        height: 22px;
+        min-width: 22px;
+        border-radius: 50%;
+        border: 2px solid v.$gris-oscuro;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 300ms;
 
-        &__descripcion {
-            color: v.$gris-oscuro;
-            margin: 0;
-            font-size: 1.4rem;
+        &::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: v.$blanco;
+            transform: scale(0);
+            transition: transform 200ms;
         }
+    }
+
+    &__icono {
+        font-size: 2.8rem;
+        line-height: 1;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__nombre {
+        color: v.$negro;
+        font-weight: v.$bold;
+        font-size: 1.6rem;
+        transition: color 300ms;
+    }
+
+    &__descripcion {
+        color: v.$gris-oscuro;
+        font-size: 1.3rem;
+        margin-top: 0.3rem;
     }
 }
