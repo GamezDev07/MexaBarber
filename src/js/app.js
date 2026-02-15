@@ -23,6 +23,7 @@ function iniciarApp() {
     botonesPaginador();
     paginaSiguiente();
     paginaAnterior();
+    siguientePaso3(); // Botón siguiente en paso 3
 
     consultarAPI(); // Servicios
     consultarBarberos(); // Barberos
@@ -106,6 +107,22 @@ function paginaSiguiente() {
         paso++;
         botonesPaginador();
     })
+}
+
+// Botón siguiente específico para Paso 3
+function siguientePaso3() {
+    const botonSiguiente = document.querySelector('#siguiente-paso3');
+    if(botonSiguiente) {
+        botonSiguiente.addEventListener('click', function() {
+            // Validar que fecha y hora están completas
+            if(!cita.fecha || !cita.hora) {
+                mostrarAlerta('Por favor, completa la fecha y hora', 'error', '.formulario');
+                return;
+            }
+            paso = 4;
+            botonesPaginador();
+        });
+    }
 }
 
 // --- PASO 1: SERVICIOS ---
@@ -290,20 +307,10 @@ function seleccionarHora() {
 // --- PASO 4: MÉTODO DE PAGO ---
 
 function seleccionarMetodoPago() {
-    const metodos = document.querySelectorAll('.metodo-pago');
+    const metodos = document.querySelectorAll('.metodo-pago-input');
     metodos.forEach( metodo => {
-        metodo.addEventListener('click', function(e) {
-            const metodoSeleccionado = e.currentTarget.dataset.metodo;
-            cita.metodoPago = metodoSeleccionado;
-
-            // Quitar seleccionado anterior
-            const anterior = document.querySelector('.metodo-pago.seleccionado');
-            if(anterior) {
-                anterior.classList.remove('seleccionado');
-            }
-
-            // Marcar nuevo
-            e.currentTarget.classList.add('seleccionado');
+        metodo.addEventListener('change', function(e) {
+            cita.metodoPago = e.target.value;
         });
     });
 }
@@ -418,8 +425,9 @@ function mostrarResumen() {
     // Boton para Crear una cita
     const botonReservar = document.createElement('BUTTON');
     botonReservar.classList.add('boton');
-    botonReservar.textContent = 'Reservar Cita';
-    botonReservar.onclick = reservarCita;
+    botonReservar.textContent = 'Confirmar';
+    botonReservar.type = 'button';
+    botonReservar.onclick = confirmarYReservar;
 
     resumen.appendChild(nombreCliente);
     resumen.appendChild(fechaCita);
@@ -427,6 +435,86 @@ function mostrarResumen() {
     resumen.appendChild(barberoCita);
     resumen.appendChild(pagoCita);
     resumen.appendChild(botonReservar);
+}
+
+// Función para confirmar antes de reservar
+function confirmarYReservar() {
+    const { nombre, fecha, hora, servicios, barberoNombre, metodoPago } = cita;
+
+    // Calcular total
+    let totalPrecio = 0;
+    servicios.forEach(servicio => {
+        totalPrecio += parseFloat(servicio.precio);
+    });
+
+    const metodoPagoMap = {
+        'efectivo': 'Efectivo',
+        'tarjeta': 'Tarjeta en Establecimiento',
+        'transferencia': 'Transferencia Bancaria'
+    };
+
+    // Formatear fecha
+    const fechaObj = new Date(fecha);
+    const mes = fechaObj.getMonth();
+    const dia = fechaObj.getDate() + 2;
+    const year = fechaObj.getFullYear();
+    const fechaUTC = new Date( Date.UTC(year, mes, dia));
+    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
+    const fechaFormateada = fechaUTC.toLocaleDateString('es-MX', opciones);
+
+    // Armar el resumen para mostrar en la alerta
+    let resumenHTML = `
+        <div style="text-align: left; margin: 20px 0;">
+            <h3>Resumen de tu Cita</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 8px; font-weight: bold;">Nombre:</td>
+                    <td style="padding: 8px;">${nombre}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 8px; font-weight: bold;">Fecha:</td>
+                    <td style="padding: 8px;">${fechaFormateada}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 8px; font-weight: bold;">Hora:</td>
+                    <td style="padding: 8px;">${hora} hrs</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 8px; font-weight: bold;">Barbero:</td>
+                    <td style="padding: 8px;">${barberoNombre}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 8px; font-weight: bold;">Método de Pago:</td>
+                    <td style="padding: 8px;">${metodoPagoMap[metodoPago]}</td>
+                </tr>
+                <tr style="border-bottom: 2px solid #333;">
+                    <td style="padding: 8px; font-weight: bold;">Servicios:</td>
+                    <td style="padding: 8px;">
+                        ${servicios.map(s => `<div>${s.nombre} - $${s.precio}</div>`).join('')}
+                    </td>
+                </tr>
+                <tr style="background-color: #f0f0f0;">
+                    <td style="padding: 12px; font-weight: bold; font-size: 16px;">Total:</td>
+                    <td style="padding: 12px; font-weight: bold; font-size: 16px; color: #2c3e50;">$${totalPrecio.toFixed(2)}</td>
+                </tr>
+            </table>
+        </div>
+    `;
+
+    Swal.fire({
+        title: '¿Sus datos están correctos?',
+        html: resumenHTML,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#2c3e50',
+        cancelButtonColor: '#999',
+        confirmButtonText: 'Sí, Confirmar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            reservarCita();
+        }
+    });
 }
 
 async function reservarCita() {

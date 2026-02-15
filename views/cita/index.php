@@ -64,6 +64,10 @@
             <input type="hidden" id="id" value="<?php echo $id; ?>" >
 
         </form>
+
+        <div class="paginacion">
+            <button id="siguiente-paso3" class="boton">Siguiente &raquo;</button>
+        </div>
     </div>
 
     <!-- Paso 4: Método de Pago -->
@@ -71,23 +75,42 @@
         <h2>Método de Pago</h2>
         <p class="text-center">Elige cómo deseas pagar</p>
 
-        <div id="metodos-pago" class="listado-metodos-pago">
-            <div class="metodo-pago" data-metodo="efectivo">
-                <span class="metodo-pago__icono">💵</span>
-                <p class="metodo-pago__nombre">Efectivo</p>
-                <p class="metodo-pago__descripcion">Paga al llegar al establecimiento</p>
+        <form id="metodos-pago-form" class="formulario">
+            <div class="campo">
+                <div class="checkbox-grupo">
+                    <label class="checkbox-label">
+                        <input type="radio" name="metodo-pago" value="efectivo" class="metodo-pago-input">
+                        <span class="checkbox-icon">💵</span>
+                        <span class="checkbox-texto">
+                            <strong>Efectivo</strong>
+                            <small>Paga al llegar al establecimiento</small>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="checkbox-grupo">
+                    <label class="checkbox-label">
+                        <input type="radio" name="metodo-pago" value="tarjeta" class="metodo-pago-input">
+                        <span class="checkbox-icon">💳</span>
+                        <span class="checkbox-texto">
+                            <strong>Tarjeta en Establecimiento</strong>
+                            <small>Paga con tarjeta al llegar</small>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="checkbox-grupo">
+                    <label class="checkbox-label">
+                        <input type="radio" name="metodo-pago" value="transferencia" class="metodo-pago-input">
+                        <span class="checkbox-icon">🏦</span>
+                        <span class="checkbox-texto">
+                            <strong>Transferencia Bancaria</strong>
+                            <small>Realiza una transferencia y sube tu comprobante</small>
+                        </span>
+                    </label>
+                </div>
             </div>
-            <div class="metodo-pago" data-metodo="tarjeta">
-                <span class="metodo-pago__icono">💳</span>
-                <p class="metodo-pago__nombre">Tarjeta en Establecimiento</p>
-                <p class="metodo-pago__descripcion">Paga con tarjeta al llegar</p>
-            </div>
-            <div class="metodo-pago" data-metodo="transferencia">
-                <span class="metodo-pago__icono">🏦</span>
-                <p class="metodo-pago__nombre">Transferencia Bancaria</p>
-                <p class="metodo-pago__descripcion">Realiza una transferencia y sube tu comprobante</p>
-            </div>
-        </div>
+        </form>
     </div>
 
     <!-- Paso 5: Resumen -->
