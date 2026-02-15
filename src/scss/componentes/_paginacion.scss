@@ -1,5 +1,5 @@
-@use 'base/variables' as v;
-@use 'base/mixins' as m;
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
 
 .paginacion {
     padding: v.$separacion 0;
@@ -8,6 +8,7 @@
         display: flex;
         justify-content: space-between;
     }
+
     button {
         margin: 0 0 1rem 0;
     }

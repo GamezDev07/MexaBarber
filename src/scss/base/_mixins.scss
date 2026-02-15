@@ -1,22 +1,23 @@
 @use 'variables' as v;
 
-/** Media Queries **/
+// Mixins para responsive
 @mixin telefono {
     @media (min-width: v.$telefono) {
         @content;
     }
 }
+
 @mixin tablet {
     @media (min-width: v.$tablet) {
         @content;
     }
 }
+
 @mixin desktop {
     @media (min-width: v.$desktop) {
         @content;
     }
 }
-
 
 @mixin boton($bgColor, $colorTexto) {
     background-color: $bgColor;
@@ -38,14 +39,15 @@
     @include tablet {
         width: auto;
     }
+
     &:hover {
-        background-color: darken( $bgColor, 10% );
+        background-color: darken($bgColor, 10%);
         cursor: pointer;
     }
 }
 
-@mixin grid($columnas, $espaciado ) {
+@mixin grid($columnas, $espaciado) {
     display: grid;
-    gap: $espaciado;
     grid-template-columns: repeat($columnas, 1fr);
+    gap: $espaciado;
 }

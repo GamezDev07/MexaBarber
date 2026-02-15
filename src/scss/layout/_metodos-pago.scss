@@ -1,5 +1,5 @@
-@use 'base/variables' as v;
-@use 'base/mixins' as m;
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
 
 // ===== Estilos para Radio Buttons (Métodos de Pago) =====
 #metodos-pago-form .campo {
@@ -91,7 +91,7 @@
         }
 
         // Estilos cuando está checked (seleccionado)
-        input[type="radio"]:checked + .checkbox-label {
+        input[type="radio"]:checked+.checkbox-label {
             border-color: v.$azul;
             background-color: rgba(44, 62, 80, 0.05);
             box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
@@ -108,6 +108,7 @@
 .listado-metodos-pago {
     display: grid;
     gap: 2rem;
+
     @include m.tablet {
         @include m.grid(3, 2rem);
     }

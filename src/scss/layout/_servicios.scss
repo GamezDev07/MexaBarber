@@ -1,9 +1,10 @@
-@use 'base/variables' as v;
-@use 'base/mixins' as m;
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
 
 .listado-servicios {
     display: grid;
     gap: 2rem;
+
     @include m.tablet {
         @include m.grid(2, 2rem);
     }
@@ -25,8 +26,13 @@
             transform: scale(1.05);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 
-            p { color: v.$negro; }
-            .precio-servicio { color: v.$azul; }
+            p {
+                color: v.$negro;
+            }
+
+            .precio-servicio {
+                color: v.$azul;
+            }
 
             // CHECKMARK INDICATIVO
             &::after {

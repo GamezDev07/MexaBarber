@@ -1,5 +1,6 @@
 // Fuentes
-$fuente_principal: 'Poppins', sans-serif;
+$fuente_principal: Arial, Helvetica, sans-serif;
+
 
 // Tamaño de Media Queries
 $telefono: 480px;
@@ -10,17 +11,20 @@ $desktop: 1024px;
 $azul: #2563EB;
 $azul-oscuro: #1e40af;
 $rojo: #EF4444;
-$verde:#10B981;
-$negro: #1F2937;
+$verde: #10B981;
 
+// Variables basicas del usuario
 $blanco: #FFFFFF;
-$gris: #F3F4F6;
-$gris-oscuro: #6B7280;
+$negro: #000000;
+$gris: #e1e1e1;
+$grisOscuro: #333333; // Added grisOscuro
+$gris-oscuro: $grisOscuro;
+$gris-claro: #f3f4f6;
 
-$separacion: 5rem;
+$separacion: 2rem;
 
 // Fuentes
 $delgada: 300;
 $regular : 400;
 $bold: 700;
-$black: 900
+$black: 900;

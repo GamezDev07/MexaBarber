@@ -1,5 +1,5 @@
-@use 'base/variables' as v;
-@use 'base/mixins' as m;
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
 
 .listado-citas {
     display: grid;
@@ -81,6 +81,7 @@
 
 .boton--danger {
     background-color: v.$rojo;
+
     &:hover {
         background-color: darken(v.$rojo, 10%);
     }
@@ -88,6 +89,7 @@
 
 .boton--secundario {
     background-color: v.$gris-oscuro;
+
     &:hover {
         background-color: darken(v.$gris-oscuro, 10%);
     }

@@ -1,4 +1,4 @@
-@use 'base/variables' as v;
+@use '../base/variables' as v;
 
 .citas {
     list-style: none;
@@ -28,6 +28,7 @@
     .acciones {
         margin: 0;
     }
+
     .boton,
     .boton-eliminar {
         margin: 0;

@@ -1,5 +1,5 @@
-@use 'base/variables' as v;
-@use 'base/mixins' as m;
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
 
 .tabs {
 
@@ -24,6 +24,7 @@
             cursor: pointer;
             background-color: darken(v.$azul, 10%);
         }
+
         &.actual {
             background-color: v.$blanco;
             color: v.$azul;

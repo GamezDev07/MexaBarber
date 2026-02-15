@@ -1,5 +1,5 @@
-@use 'base/variables' as v;
-@use 'base/mixins' as m;
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
 
 %boton-base {
     padding: 0.8rem 2rem;
@@ -27,11 +27,17 @@
 }
 
 .boton {
-    @extend %boton-base;
-    @include m.boton(v.$azul, v.$blanco);
+    padding: 1.5rem 4rem;
+    background-color: v.$grisOscuro;
+    color: v.$blanco;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.8rem;
+    transition: background-color 0.3s ease;
 
     &:hover {
-        background-color: v.$azul-oscuro;
+        background-color: lighten(v.$grisOscuro, 10%);
     }
 }
 

@@ -8,15 +8,18 @@ use Model\CitaServicio;
 use Model\Notificacion;
 use Model\Servicio;
 
-class APIController {
-    public static function index() {
+class APIController
+{
+    public static function index()
+    {
         $servicios = Servicio::all();
         echo json_encode($servicios);
     }
 
-    public static function barberos() {
+    public static function barberos()
+    {
         $barbershopId = getBarbershopId();
-        if($barbershopId) {
+        if ($barbershopId) {
             $barberos = Barbero::activosPorBarbershop($barbershopId);
         } else {
             $barberos = [];
@@ -24,12 +27,13 @@ class APIController {
         echo json_encode($barberos);
     }
 
-    public static function guardar() {
+    public static function guardar()
+    {
 
         // Calcular turno
         $barbershopId = getBarbershopId();
         $turno = null;
-        if($barbershopId) {
+        if ($barbershopId) {
             $turno = Cita::siguienteTurno($_POST['fecha'], $barbershopId);
         }
 
@@ -51,7 +55,7 @@ class APIController {
 
         // Almacena los Servicios con el ID de la Cita
         $idServicios = explode(",", $_POST['servicios']);
-        foreach($idServicios as $idServicio) {
+        foreach ($idServicios as $idServicio) {
             $args = [
                 'citaId' => $id,
                 'servicioId' => $idServicio
@@ -61,9 +65,9 @@ class APIController {
         }
 
         // Notificar al barbero si fue seleccionado
-        if(!empty($_POST['barberoId'])) {
+        if (!empty($_POST['barberoId'])) {
             $barbero = Barbero::find($_POST['barberoId']);
-            if($barbero) {
+            if ($barbero) {
                 $notificacion = new Notificacion([
                     'usuario_id' => $barbero->usuario_id,
                     'barbershop_id' => $barbershopId,
@@ -79,9 +83,10 @@ class APIController {
         echo json_encode(['resultado' => $resultado, 'turno' => $turno]);
     }
 
-    public static function eliminar() {
+    public static function eliminar()
+    {
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $cita = Cita::find($id);
             $cita->eliminar();
@@ -90,8 +95,9 @@ class APIController {
     }
 
     // Obtener citas del usuario logueado
-    public static function misCitas() {
-        session_start();
+    public static function misCitas()
+    {
+        // session_start(); // Ya se inicia en includes/app.php
         isAuth();
 
         $usuarioId = $_SESSION['id'];
@@ -100,16 +106,17 @@ class APIController {
     }
 
     // Cancelar cita del usuario
-    public static function cancelarCita() {
-        session_start();
+    public static function cancelarCita()
+    {
+        // session_start(); // Ya se inicia en includes/app.php
         isAuth();
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $cita = Cita::find($id);
 
             // Verificar que la cita pertenece al usuario
-            if(!$cita || $cita->usuarioId != $_SESSION['id']) {
+            if (!$cita || $cita->usuarioId != $_SESSION['id']) {
                 echo json_encode(['resultado' => false, 'mensaje' => 'No autorizado']);
                 return;
             }
@@ -117,7 +124,7 @@ class APIController {
             // Verificar que la cita es futura (al menos 1 hora antes)
             $fechaHoraCita = strtotime("{$cita->fecha} {$cita->hora}");
             $ahora = time();
-            if($fechaHoraCita - $ahora < 3600) {
+            if ($fechaHoraCita - $ahora < 3600) {
                 echo json_encode(['resultado' => false, 'mensaje' => 'Solo puedes cancelar con al menos 1 hora de anticipación']);
                 return;
             }
@@ -126,9 +133,9 @@ class APIController {
             $resultado = $cita->actualizar();
 
             // Notificar al barbero
-            if($cita->barbero_id) {
+            if ($cita->barbero_id) {
                 $barbero = Barbero::find($cita->barbero_id);
-                if($barbero) {
+                if ($barbero) {
                     $notificacion = new Notificacion([
                         'usuario_id' => $barbero->usuario_id,
                         'barbershop_id' => $cita->barbershop_id,
@@ -146,16 +153,17 @@ class APIController {
     }
 
     // Modificar cita del usuario
-    public static function modificarCita() {
-        session_start();
+    public static function modificarCita()
+    {
+        // session_start(); // Ya se inicia en includes/app.php
         isAuth();
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $cita = Cita::find($id);
 
             // Verificar que la cita pertenece al usuario
-            if(!$cita || $cita->usuarioId != $_SESSION['id']) {
+            if (!$cita || $cita->usuarioId != $_SESSION['id']) {
                 echo json_encode(['resultado' => false, 'mensaje' => 'No autorizado']);
                 return;
             }
@@ -163,7 +171,7 @@ class APIController {
             // Verificar que faltan al menos 2 horas
             $fechaHoraCita = strtotime("{$cita->fecha} {$cita->hora}");
             $ahora = time();
-            if($fechaHoraCita - $ahora < 7200) {
+            if ($fechaHoraCita - $ahora < 7200) {
                 echo json_encode(['resultado' => false, 'mensaje' => 'Solo puedes modificar con al menos 2 horas de anticipación']);
                 return;
             }
@@ -171,16 +179,19 @@ class APIController {
             $barberoAnteriorId = $cita->barbero_id;
 
             // Actualizar campos
-            if(!empty($_POST['fecha'])) $cita->fecha = $_POST['fecha'];
-            if(!empty($_POST['hora'])) $cita->hora = $_POST['hora'];
-            if(isset($_POST['barberoId'])) $cita->barbero_id = !empty($_POST['barberoId']) ? $_POST['barberoId'] : null;
+            if (!empty($_POST['fecha']))
+                $cita->fecha = $_POST['fecha'];
+            if (!empty($_POST['hora']))
+                $cita->hora = $_POST['hora'];
+            if (isset($_POST['barberoId']))
+                $cita->barbero_id = !empty($_POST['barberoId']) ? $_POST['barberoId'] : null;
 
             $resultado = $cita->actualizar();
 
             // Notificar al barbero nuevo si cambió
-            if($cita->barbero_id && $cita->barbero_id != $barberoAnteriorId) {
+            if ($cita->barbero_id && $cita->barbero_id != $barberoAnteriorId) {
                 $barbero = Barbero::find($cita->barbero_id);
-                if($barbero) {
+                if ($barbero) {
                     $notificacion = new Notificacion([
                         'usuario_id' => $barbero->usuario_id,
                         'barbershop_id' => $cita->barbershop_id,
@@ -193,9 +204,9 @@ class APIController {
                 }
 
                 // Notificar al barbero anterior
-                if($barberoAnteriorId) {
+                if ($barberoAnteriorId) {
                     $barberoAnterior = Barbero::find($barberoAnteriorId);
-                    if($barberoAnterior) {
+                    if ($barberoAnterior) {
                         $notificacion = new Notificacion([
                             'usuario_id' => $barberoAnterior->usuario_id,
                             'barbershop_id' => $cita->barbershop_id,
@@ -214,8 +225,9 @@ class APIController {
     }
 
     // Obtener notificaciones del usuario
-    public static function notificaciones() {
-        session_start();
+    public static function notificaciones()
+    {
+        // session_start(); // Ya se inicia en includes/app.php
         isAuth();
 
         $notificaciones = Notificacion::noLeidasPorUsuario($_SESSION['id']);
@@ -223,15 +235,16 @@ class APIController {
     }
 
     // Marcar notificación como leída
-    public static function leerNotificacion() {
-        session_start();
+    public static function leerNotificacion()
+    {
+        // session_start(); // Ya se inicia en includes/app.php
         isAuth();
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $notificacion = Notificacion::find($id);
 
-            if($notificacion && $notificacion->usuario_id == $_SESSION['id']) {
+            if ($notificacion && $notificacion->usuario_id == $_SESSION['id']) {
                 $notificacion->leida = 1;
                 $resultado = $notificacion->actualizar();
                 echo json_encode(['resultado' => $resultado]);
