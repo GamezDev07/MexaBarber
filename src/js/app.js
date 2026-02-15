@@ -30,8 +30,7 @@ function iniciarApp() {
 
     idCliente();
     nombreCliente();
-    seleccionarFecha();
-    seleccionarHora();
+    initFlatpickr(); // Nueva función para fecha y hora
     seleccionarMetodoPago();
 
     mostrarResumen();
@@ -139,6 +138,9 @@ async function consultarAPI() {
 }
 
 function mostrarServicios(servicios) {
+    const serviciosDiv = document.querySelector('#servicios');
+    serviciosDiv.innerHTML = ''; // Limpiar skeletons
+
     servicios.forEach(servicio => {
         const { id, nombre, precio } = servicio;
 
@@ -283,32 +285,37 @@ function nombreCliente() {
     cita.nombre = document.querySelector('#nombre').value;
 }
 
-function seleccionarFecha() {
-    const inputFecha = document.querySelector('#fecha');
-    inputFecha.addEventListener('input', function (e) {
-        const dia = new Date(e.target.value).getUTCDay();
-
-        if ([6, 0].includes(dia)) {
-            e.target.value = '';
-            mostrarAlerta('Fines de semana no permitidos', 'error', '.formulario');
-        } else {
-            cita.fecha = e.target.value;
+function initFlatpickr() {
+    // Configuración del Calendario
+    flatpickr("#fecha", {
+        minDate: "today",
+        dateFormat: "Y-m-d",
+        disable: [
+            function (date) {
+                // Deshabilitar fines de semana (0=Domingo, 6=Sábado)
+                return (date.getDay() === 0 || date.getDay() === 6);
+            }
+        ],
+        locale: {
+            firstDayOfWeek: 1 // Lunes
+        },
+        onChange: function (selectedDates, dateStr, instance) {
+            cita.fecha = dateStr;
         }
     });
-}
 
-function seleccionarHora() {
-    const inputHora = document.querySelector('#hora');
-    inputHora.addEventListener('input', function (e) {
-        const horaCita = e.target.value;
-        const hora = horaCita.split(":")[0];
-        if (hora < 10 || hora > 18) {
-            e.target.value = '';
-            mostrarAlerta('Hora No Válida', 'error', '.formulario');
-        } else {
-            cita.hora = e.target.value;
+    // Configuración del Reloj
+    flatpickr("#hora", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        minTime: "10:00",
+        maxTime: "18:00",
+        time_24hr: true,
+        onChange: function (selectedDates, dateStr, instance) {
+            cita.hora = dateStr;
         }
-    })
+    });
 }
 
 // --- PASO 4: MÉTODO DE PAGO ---

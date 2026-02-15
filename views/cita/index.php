@@ -2,7 +2,7 @@
 <p class="descripcion-pagina">Elige tus servicios y coloca tus datos</p>
 
 <?php
-    include_once __DIR__ . '/../templates/barra.php';
+include_once __DIR__ . '/../templates/barra.php';
 ?>
 
 <div id="app">
@@ -18,7 +18,14 @@
     <div id="paso-1" class="seccion">
         <h2>Servicios</h2>
         <p class="text-center">Elige tus servicios a continuación</p>
-        <div id="servicios" class="listado-servicios"></div>
+        <div id="servicios" class="listado-servicios">
+            <div class="servicio-skeleton"></div>
+            <div class="servicio-skeleton"></div>
+            <div class="servicio-skeleton"></div>
+            <div class="servicio-skeleton"></div>
+            <div class="servicio-skeleton"></div>
+            <div class="servicio-skeleton"></div>
+        </div>
     </div>
 
     <!-- Paso 2: Selección de Barbero -->
@@ -36,32 +43,19 @@
         <form class="formulario">
             <div class="campo">
                 <label for="nombre">Nombre</label>
-                <input
-                    id="nombre"
-                    type="text"
-                    placeholder="Tu Nombre"
-                    value="<?php echo $nombre; ?>"
-                    disabled
-                />
+                <input id="nombre" type="text" placeholder="Tu Nombre" value="<?php echo $nombre; ?>" disabled />
             </div>
 
             <div class="campo">
                 <label for="fecha">Fecha</label>
-                <input
-                    id="fecha"
-                    type="date"
-                    min="<?php echo date('Y-m-d', strtotime('+1 day') ); ?>"
-                />
+                <input id="fecha" type="text" placeholder="Selecciona la fecha" />
             </div>
 
             <div class="campo">
                 <label for="hora">Hora</label>
-                <input
-                    id="hora"
-                    type="time"
-                />
+                <input id="hora" type="text" placeholder="Selecciona la hora" />
             </div>
-            <input type="hidden" id="id" value="<?php echo $id; ?>" >
+            <input type="hidden" id="id" value="<?php echo $id; ?>">
 
         </form>
 
@@ -78,7 +72,8 @@
         <form id="metodos-pago-form" class="formulario">
             <div class="campo">
                 <div class="checkbox-grupo">
-                    <input type="radio" id="metodo-efectivo" name="metodo-pago" value="efectivo" class="metodo-pago-input">
+                    <input type="radio" id="metodo-efectivo" name="metodo-pago" value="efectivo"
+                        class="metodo-pago-input">
                     <label for="metodo-efectivo" class="checkbox-label">
                         <span class="checkbox-icon">💵</span>
                         <span class="checkbox-texto">
@@ -89,7 +84,8 @@
                 </div>
 
                 <div class="checkbox-grupo">
-                    <input type="radio" id="metodo-tarjeta" name="metodo-pago" value="tarjeta" class="metodo-pago-input">
+                    <input type="radio" id="metodo-tarjeta" name="metodo-pago" value="tarjeta"
+                        class="metodo-pago-input">
                     <label for="metodo-tarjeta" class="checkbox-label">
                         <span class="checkbox-icon">💳</span>
                         <span class="checkbox-texto">
@@ -100,7 +96,8 @@
                 </div>
 
                 <div class="checkbox-grupo">
-                    <input type="radio" id="metodo-transferencia" name="metodo-pago" value="transferencia" class="metodo-pago-input">
+                    <input type="radio" id="metodo-transferencia" name="metodo-pago" value="transferencia"
+                        class="metodo-pago-input">
                     <label for="metodo-transferencia" class="checkbox-label">
                         <span class="checkbox-icon">🏦</span>
                         <span class="checkbox-texto">
@@ -120,20 +117,14 @@
     </div>
 
     <div class="paginacion">
-        <button
-            id="anterior"
-            class="boton"
-        >&laquo; Anterior</button>
+        <button id="anterior" class="boton">&laquo; Anterior</button>
 
-        <button
-            id="siguiente"
-            class="boton"
-        >Siguiente &raquo;</button>
+        <button id="siguiente" class="boton">Siguiente &raquo;</button>
     </div>
 </div>
 
 <?php
-    $script = "
+$script = "
         <script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script>
         <script src='build/js/app.js'></script>
     ";

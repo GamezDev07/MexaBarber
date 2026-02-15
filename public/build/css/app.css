@@ -586,21 +586,89 @@ p {
   margin: 0;
 }
 
-.contenido-resumen p {
-  margin-bottom: 1rem;
-}
-.contenido-resumen span {
-  color: #2563EB;
-  font-weight: 700;
-  font-size: 2.4rem;
+.servicio-skeleton {
+  height: 15rem;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 1rem;
+  width: 100%;
+  display: inline-block;
 }
 
-.contenedor-servicio {
-  padding: 3rem 0;
-  border-bottom: 1px solid #F3F4F6;
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
-.contenedor-servicio:last-of-type {
-  margin-bottom: 5rem;
+.contenido-resumen {
+  background-color: #FFFFFF;
+  padding: 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  max-width: 60rem;
+  margin: 0 auto;
+  position: relative;
+  border: 1px solid #F3F4F6;
+}
+.contenido-resumen::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: radial-gradient(circle, transparent 0.5rem, #FFFFFF 0.5rem);
+  background-size: 1.5rem 1.5rem;
+  background-position: center;
+}
+.contenido-resumen h3 {
+  text-align: center;
+  color: #2563EB;
+  border-bottom: 2px dashed #F3F4F6;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  font-size: 2.4rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.contenido-resumen p {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.6rem;
+}
+.contenido-resumen p span {
+  font-weight: 700;
+  color: #6B7280;
+}
+.contenido-resumen .contenedor-servicio {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed rgb(216.3276595745, 218.4425531915, 222.6723404255);
+}
+.contenido-resumen .contenedor-servicio:last-child {
+  border-bottom: none;
+}
+.contenido-resumen .contenedor-servicio p {
+  margin: 0;
+  color: #1F2937;
+}
+.contenido-resumen .total {
+  margin-top: 3rem;
+  border-top: 2px solid #1F2937;
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #1F2937;
 }
 
 .citas, .servicios {
