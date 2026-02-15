@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+// Iniciar sesión
+session_start();
 
 require 'config.php';
 require 'funciones.php';
