@@ -320,13 +320,13 @@ html {
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 1.6rem;
   line-height: 1.8;
 }
 
 p {
-  color: #000000;
+  color: #1F2937;
   font-size: 2rem;
 }
 
@@ -337,13 +337,13 @@ p {
 }
 
 a {
-  color: #000000;
+  color: #1F2937;
 }
 
 h1,
 h2,
 h3 {
-  margin: 0 0 2rem 0;
+  margin: 0 0 5rem 0;
 }
 
 h1 {
@@ -364,8 +364,8 @@ img {
 }
 
 h1, h2, h3 {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0 0 1rem 0;
+  font-family: "Poppins", sans-serif;
+  margin: 0 0 2.5rem 0;
   font-weight: 900;
   color: #FFFFFF;
   text-align: center;
@@ -452,7 +452,7 @@ p {
   }
 }
 .barra {
-  margin: 2rem 0;
+  margin: 5rem 0;
 }
 @media (min-width: 768px) {
   .barra {
@@ -462,7 +462,7 @@ p {
   }
 }
 .barra .boton {
-  background-color: #000000;
+  background-color: #1F2937;
   padding: 1.5rem 4rem;
   color: #FFFFFF;
   margin-top: 2rem;
@@ -484,7 +484,7 @@ p {
   }
 }
 .barra .boton:hover {
-  background-color: black;
+  background-color: rgb(12.6162790698, 16.6860465116, 22.3837209302);
   cursor: pointer;
 }
 .barra .boton {
@@ -492,7 +492,7 @@ p {
 }
 
 .barra-servicios {
-  margin-bottom: 2rem;
+  margin-bottom: 5rem;
 }
 @media (min-width: 768px) {
   .barra-servicios {
@@ -548,7 +548,7 @@ p {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 .listado-servicios .servicio.seleccionado p {
-  color: #000000;
+  color: #1F2937;
 }
 .listado-servicios .servicio.seleccionado .precio-servicio {
   color: #2563EB;
@@ -576,8 +576,8 @@ p {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 .listado-servicios .servicio p {
-  color: #000000;
-  margin: 0 0 0.5rem 0;
+  color: #1F2937;
+  margin: 0 0 1.25rem 0;
 }
 .listado-servicios .servicio .precio-servicio {
   color: #2563EB;
@@ -597,10 +597,10 @@ p {
 
 .contenedor-servicio {
   padding: 3rem 0;
-  border-bottom: 1px solid #e1e1e1;
+  border-bottom: 1px solid #F3F4F6;
 }
 .contenedor-servicio:last-of-type {
-  margin-bottom: 2rem;
+  margin-bottom: 5rem;
 }
 
 .citas, .servicios {
@@ -642,7 +642,7 @@ p {
   border-radius: 0.8rem;
   text-align: center;
   cursor: pointer;
-  border: 2px solid #f3f4f6;
+  border: 2px solid #F3F4F6;
   transition: all 300ms ease;
   position: relative;
   display: flex;
@@ -686,13 +686,13 @@ p {
   display: block;
 }
 .listado-barberos .barbero__nombre {
-  color: #000000;
+  color: #1F2937;
   font-weight: 700;
   font-size: 1.6rem;
   margin: 0.5rem 0;
 }
 .listado-barberos .barbero__especialidad {
-  color: #333333;
+  color: #6B7280;
   font-size: 1.3rem;
   margin: 0.5rem 0;
 }
@@ -714,7 +714,7 @@ p {
   height: 24px;
   min-width: 24px;
   min-height: 24px;
-  border: 2px solid #e1e1e1;
+  border: 2px solid #F3F4F6;
   border-radius: 50%;
   cursor: pointer;
   position: relative;
@@ -738,7 +738,7 @@ p {
   gap: 1.2rem;
   padding: 1.5rem;
   background-color: #FFFFFF;
-  border: 2px solid #f3f4f6;
+  border: 2px solid #F3F4F6;
   border-radius: 0.8rem;
   cursor: pointer;
   transition: all 300ms ease;
@@ -765,14 +765,14 @@ p {
 }
 #metodos-pago-form .campo .checkbox-grupo .checkbox-label .checkbox-texto strong {
   display: block;
-  color: #000000;
+  color: #1F2937;
   font-weight: 700;
   font-size: 1.5rem;
   margin: 0 0 0.3rem 0;
 }
 #metodos-pago-form .campo .checkbox-grupo .checkbox-label .checkbox-texto small {
   display: block;
-  color: #333333;
+  color: #6B7280;
   font-size: 1.2rem;
   margin: 0;
 }
@@ -839,13 +839,13 @@ p {
   margin: 0 0 1rem 0;
 }
 .listado-metodos-pago .metodo-pago__nombre {
-  color: #000000;
+  color: #1F2937;
   font-weight: 700;
   font-size: 1.8rem;
   margin: 0 0 0.5rem 0;
 }
 .listado-metodos-pago .metodo-pago__descripcion {
-  color: #333333;
+  color: #6B7280;
   margin: 0;
   font-size: 1.4rem;
 }
@@ -892,7 +892,7 @@ p {
 }
 .cita-card__body p {
   margin: 0 0 0.5rem 0;
-  color: #000000;
+  color: #1F2937;
   font-size: 1.5rem;
 }
 .cita-card__body p strong {
@@ -908,7 +908,7 @@ p {
   gap: 1rem;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #e1e1e1;
+  border-top: 1px solid #F3F4F6;
 }
 
 .boton--small {
@@ -925,10 +925,10 @@ p {
 }
 
 .boton--secundario {
-  background-color: #333333;
+  background-color: #6B7280;
 }
 .boton--secundario:hover {
-  background-color: rgb(25.5, 25.5, 25.5);
+  background-color: rgb(83.7787234043, 89.2595744681, 100.2212765957);
 }
 
 .modal {
@@ -952,16 +952,16 @@ p {
 }
 .modal__contenido h2 {
   margin: 0 0 2rem 0;
-  color: #000000;
+  color: #1F2937;
 }
 
 .campo__select {
   width: 100%;
   padding: 1rem;
-  border: 1px solid #e1e1e1;
+  border: 1px solid #F3F4F6;
   border-radius: 0.5rem;
   font-size: 1.6rem;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .header {
@@ -982,18 +982,22 @@ p {
 }
 
 .formulario {
-  max-width: 60rem;
-  margin: 0 auto;
+  margin-top: 2rem;
+  width: 100%;
 }
 
 .campo {
-  margin-bottom: 2rem;
+  display: flex;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+  flex-direction: column;
 }
 .campo label {
-  display: block;
-  font-weight: 700;
+  flex: 0 0 auto;
   margin-bottom: 0.5rem;
-  font-size: 2rem;
+  font-weight: 700;
+  color: #1F2937;
+  font-size: 0.9rem;
 }
 .campo input[type=text],
 .campo input[type=email],
@@ -1001,14 +1005,45 @@ p {
 .campo input[type=tel],
 .campo input[type=date],
 .campo input[type=time] {
+  flex: 1;
   width: 100%;
-  padding: 1.5rem;
-  border: 1px solid #e1e1e1;
+  border: 1px solid rgb(188.5489361702, 192.1829787234, 199.4510638298);
+  background-color: #FFFFFF;
+  padding: 0.8rem 1rem;
   border-radius: 0.5rem;
-  font-size: 1.6rem;
+  transition: all 0.3s ease;
+}
+.campo input[type=text]:focus,
+.campo input[type=email]:focus,
+.campo input[type=password]:focus,
+.campo input[type=tel]:focus,
+.campo input[type=date]:focus,
+.campo input[type=time]:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+.campo input[type=text]:disabled,
+.campo input[type=email]:disabled,
+.campo input[type=password]:disabled,
+.campo input[type=tel]:disabled,
+.campo input[type=date]:disabled,
+.campo input[type=time]:disabled {
+  background-color: #F3F4F6;
+  color: #6B7280;
+  cursor: not-allowed;
+  border-color: #F3F4F6;
+}
+.campo input[type=text]::placeholder,
+.campo input[type=email]::placeholder,
+.campo input[type=password]::placeholder,
+.campo input[type=tel]::placeholder,
+.campo input[type=date]::placeholder,
+.campo input[type=time]::placeholder {
+  color: rgb(160.770212766, 165.9234042553, 176.229787234);
 }
 
-.boton-eliminar {
+.boton-eliminar, .boton {
   padding: 0.8rem 2rem;
   border-radius: 0.5rem;
   font-weight: 700;
@@ -1020,30 +1055,46 @@ p {
   width: 100%;
 }
 @media (min-width: 768px) {
-  .boton-eliminar {
+  .boton-eliminar, .boton {
     width: auto;
   }
 }
-.boton-eliminar:hover {
+.boton-eliminar:hover, .boton:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.boton-eliminar:active {
+.boton-eliminar:active, .boton:active {
   transform: translateY(0);
 }
 
 .boton {
+  background-color: #2563EB;
   padding: 1.5rem 4rem;
-  background-color: #333333;
   color: #FFFFFF;
-  border: none;
-  cursor: pointer;
+  margin-top: 2rem;
+  font-size: 2rem;
+  font-weight: 400;
+  display: inline-block;
   font-weight: 700;
-  font-size: 1.8rem;
-  transition: background-color 0.3s ease;
+  border: none;
+  transition-property: background-color;
+  transition-duration: 0.3s;
+  text-align: center;
+  display: block;
+  width: 100%;
+  margin: 5rem 0;
+}
+@media (min-width: 768px) {
+  .boton {
+    width: auto;
+  }
 }
 .boton:hover {
-  background-color: rgb(76.5, 76.5, 76.5);
+  background-color: rgb(18.5714285714, 76.1428571429, 202.4285714286);
+  cursor: pointer;
+}
+.boton:hover {
+  background-color: #1e40af;
 }
 
 .boton-eliminar {
@@ -1077,7 +1128,7 @@ p {
 }
 
 .acciones {
-  margin-top: 2rem;
+  margin-top: 5rem;
 }
 @media (min-width: 768px) {
   .acciones {
@@ -1089,7 +1140,7 @@ p {
 .acciones a {
   color: #FFFFFF;
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 2.5rem;
   text-align: center;
 }
 
@@ -1142,7 +1193,7 @@ p {
 }
 
 .paginacion {
-  padding: 2rem 0;
+  padding: 5rem 0;
 }
 @media (min-width: 480px) {
   .paginacion {

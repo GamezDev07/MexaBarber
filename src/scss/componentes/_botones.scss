@@ -1,6 +1,7 @@
 @use '../base/variables' as v;
 @use '../base/mixins' as m;
 
+// Estilos base modernos
 %boton-base {
     padding: 0.8rem 2rem;
     border-radius: 0.5rem;
@@ -27,17 +28,11 @@
 }
 
 .boton {
-    padding: 1.5rem 4rem;
-    background-color: v.$grisOscuro;
-    color: v.$blanco;
-    border: none;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 1.8rem;
-    transition: background-color 0.3s ease;
+    @extend %boton-base;
+    @include m.boton(v.$azul, v.$blanco);
 
     &:hover {
-        background-color: lighten(v.$grisOscuro, 10%);
+        background-color: v.$azul-oscuro;
     }
 }
 

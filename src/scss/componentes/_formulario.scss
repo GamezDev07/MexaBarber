@@ -2,18 +2,22 @@
 @use '../base/mixins' as m;
 
 .formulario {
-    max-width: 60rem;
-    margin: 0 auto;
+    margin-top: 2rem;
+    width: 100%;
 }
 
 .campo {
-    margin-bottom: 2rem;
+    display: flex;
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+    flex-direction: column;
 
     label {
-        display: block;
-        font-weight: 700;
+        flex: 0 0 auto;
         margin-bottom: 0.5rem;
-        font-size: 2rem;
+        font-weight: v.$bold;
+        color: v.$negro;
+        font-size: 0.9rem;
     }
 
     input[type="text"],
@@ -22,10 +26,29 @@
     input[type="tel"],
     input[type="date"],
     input[type="time"] {
+        flex: 1;
         width: 100%;
-        padding: 1.5rem;
-        border: 1px solid v.$gris;
+        border: 1px solid lighten(v.$gris-oscuro, 30%);
+        background-color: v.$blanco;
+        padding: 0.8rem 1rem;
         border-radius: 0.5rem;
-        font-size: 1.6rem;
+        transition: all 0.3s ease;
+
+        &:focus {
+            outline: none;
+            border-color: v.$azul;
+            box-shadow: 0 0 0 3px rgba(v.$azul, 0.2);
+        }
+
+        &:disabled {
+            background-color: v.$gris;
+            color: v.$gris-oscuro;
+            cursor: not-allowed;
+            border-color: v.$gris;
+        }
+
+        &::placeholder {
+            color: lighten(v.$gris-oscuro, 20%);
+        }
     }
 }
