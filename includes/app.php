@@ -1,5 +1,10 @@
 <?php
 
+// Set UTF-8 encoding for all output
+header('Content-Type: text/html; charset=UTF-8');
+mb_internal_encoding('UTF-8');
+mb_http_output('UTF-8');
+
 // Iniciar sesión
 session_start();
 

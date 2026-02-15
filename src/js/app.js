@@ -13,7 +13,7 @@ const cita = {
     metodoPago: ''
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     iniciarApp();
 });
 
@@ -40,7 +40,7 @@ function iniciarApp() {
 function mostrarSeccion() {
     // Ocultar la sección que tenga la clase de mostrar
     const seccionAnterior = document.querySelector('.mostrar');
-    if(seccionAnterior) {
+    if (seccionAnterior) {
         seccionAnterior.classList.remove('mostrar');
     }
 
@@ -51,7 +51,7 @@ function mostrarSeccion() {
 
     // Quita la clase de actual al tab anterior
     const tabAnterior = document.querySelector('.actual');
-    if(tabAnterior) {
+    if (tabAnterior) {
         tabAnterior.classList.remove('actual');
     }
 
@@ -62,10 +62,10 @@ function mostrarSeccion() {
 
 function tabs() {
     const botones = document.querySelectorAll('.tabs button');
-    botones.forEach( boton => {
-        boton.addEventListener('click', function(e) {
+    botones.forEach(boton => {
+        boton.addEventListener('click', function (e) {
             e.preventDefault();
-            paso = parseInt( e.target.dataset.paso );
+            paso = parseInt(e.target.dataset.paso);
             mostrarSeccion();
             botonesPaginador();
         });
@@ -76,7 +76,7 @@ function botonesPaginador() {
     const paginaAnterior = document.querySelector('#anterior');
     const paginaSiguiente = document.querySelector('#siguiente');
 
-    if(paso === 1) {
+    if (paso === 1) {
         paginaAnterior.classList.add('ocultar');
         paginaSiguiente.classList.remove('ocultar');
     } else if (paso === pasoFinal) {
@@ -94,16 +94,16 @@ function botonesPaginador() {
 
 function paginaAnterior() {
     const paginaAnterior = document.querySelector('#anterior');
-    paginaAnterior.addEventListener('click', function() {
-        if(paso <= pasoInicial) return;
+    paginaAnterior.addEventListener('click', function () {
+        if (paso <= pasoInicial) return;
         paso--;
         botonesPaginador();
     })
 }
 function paginaSiguiente() {
     const paginaSiguiente = document.querySelector('#siguiente');
-    paginaSiguiente.addEventListener('click', function() {
-        if(paso >= pasoFinal) return;
+    paginaSiguiente.addEventListener('click', function () {
+        if (paso >= pasoFinal) return;
         paso++;
         botonesPaginador();
     })
@@ -112,10 +112,10 @@ function paginaSiguiente() {
 // Botón siguiente específico para Paso 3
 function siguientePaso3() {
     const botonSiguiente = document.querySelector('#siguiente-paso3');
-    if(botonSiguiente) {
-        botonSiguiente.addEventListener('click', function() {
+    if (botonSiguiente) {
+        botonSiguiente.addEventListener('click', function () {
             // Validar que fecha y hora están completas
-            if(!cita.fecha || !cita.hora) {
+            if (!cita.fecha || !cita.hora) {
                 mostrarAlerta('Por favor, completa la fecha y hora', 'error', '.formulario');
                 return;
             }
@@ -139,7 +139,7 @@ async function consultarAPI() {
 }
 
 function mostrarServicios(servicios) {
-    servicios.forEach( servicio => {
+    servicios.forEach(servicio => {
         const { id, nombre, precio } = servicio;
 
         const nombreServicio = document.createElement('P');
@@ -153,7 +153,7 @@ function mostrarServicios(servicios) {
         const servicioDiv = document.createElement('DIV');
         servicioDiv.classList.add('servicio');
         servicioDiv.dataset.idServicio = id;
-        servicioDiv.onclick = function() {
+        servicioDiv.onclick = function () {
             seleccionarServicio(servicio);
         }
 
@@ -170,8 +170,8 @@ function seleccionarServicio(servicio) {
 
     const divServicio = document.querySelector(`[data-id-servicio="${id}"]`);
 
-    if( servicios.some( agregado => agregado.id === id ) ) {
-        cita.servicios = servicios.filter( agregado => agregado.id !== id );
+    if (servicios.some(agregado => agregado.id === id)) {
+        cita.servicios = servicios.filter(agregado => agregado.id !== id);
         divServicio.classList.remove('seleccionado');
     } else {
         cita.servicios = [...servicios, servicio];
@@ -182,24 +182,31 @@ function seleccionarServicio(servicio) {
 // --- PASO 2: BARBEROS ---
 
 async function consultarBarberos() {
+    console.log('🔍 consultarBarberos() called');
     try {
         const url = window.location.origin + '/api/barberos';
+        console.log('📡 Fetching:', url);
         const resultado = await fetch(url);
+        console.log('✅ Response received:', resultado.status);
         const barberos = await resultado.json();
+        console.log('📦 Barberos data:', barberos);
+        console.log('📊 Number of barberos:', barberos.length);
         mostrarBarberos(barberos);
     } catch (error) {
-        console.log(error);
+        console.error('❌ Error in consultarBarberos:', error);
     }
 }
 
 function mostrarBarberos(barberos) {
+    console.log('🎨 mostrarBarberos() called with:', barberos);
     const contenedor = document.querySelector('#barberos');
+    console.log('📍 Container element:', contenedor);
 
     // Opción "Sin preferencia"
     const sinPreferencia = document.createElement('DIV');
     sinPreferencia.classList.add('barbero');
     sinPreferencia.dataset.barberoId = '';
-    sinPreferencia.onclick = function() {
+    sinPreferencia.onclick = function () {
         seleccionarBarbero('', 'Sin preferencia');
     }
 
@@ -221,13 +228,13 @@ function mostrarBarberos(barberos) {
     contenedor.appendChild(sinPreferencia);
 
     // Barberos disponibles
-    barberos.forEach( barbero => {
+    barberos.forEach(barbero => {
         const { id, nombre, especialidad } = barbero;
 
         const barberoDiv = document.createElement('DIV');
         barberoDiv.classList.add('barbero');
         barberoDiv.dataset.barberoId = id;
-        barberoDiv.onclick = function() {
+        barberoDiv.onclick = function () {
             seleccionarBarbero(id, nombre);
         }
 
@@ -256,13 +263,13 @@ function seleccionarBarbero(id, nombre) {
 
     // Quitar seleccionado anterior
     const barberoAnterior = document.querySelector('.barbero.seleccionado');
-    if(barberoAnterior) {
+    if (barberoAnterior) {
         barberoAnterior.classList.remove('seleccionado');
     }
 
     // Marcar seleccionado
     const barberoSeleccionado = document.querySelector(`[data-barbero-id="${id}"]`);
-    if(barberoSeleccionado) {
+    if (barberoSeleccionado) {
         barberoSeleccionado.classList.add('seleccionado');
     }
 }
@@ -278,10 +285,10 @@ function nombreCliente() {
 
 function seleccionarFecha() {
     const inputFecha = document.querySelector('#fecha');
-    inputFecha.addEventListener('input', function(e) {
+    inputFecha.addEventListener('input', function (e) {
         const dia = new Date(e.target.value).getUTCDay();
 
-        if( [6, 0].includes(dia) ) {
+        if ([6, 0].includes(dia)) {
             e.target.value = '';
             mostrarAlerta('Fines de semana no permitidos', 'error', '.formulario');
         } else {
@@ -292,10 +299,10 @@ function seleccionarFecha() {
 
 function seleccionarHora() {
     const inputHora = document.querySelector('#hora');
-    inputHora.addEventListener('input', function(e) {
+    inputHora.addEventListener('input', function (e) {
         const horaCita = e.target.value;
         const hora = horaCita.split(":")[0];
-        if(hora < 10 || hora > 18) {
+        if (hora < 10 || hora > 18) {
             e.target.value = '';
             mostrarAlerta('Hora No Válida', 'error', '.formulario');
         } else {
@@ -308,8 +315,8 @@ function seleccionarHora() {
 
 function seleccionarMetodoPago() {
     const metodos = document.querySelectorAll('.metodo-pago-input');
-    metodos.forEach( metodo => {
-        metodo.addEventListener('change', function(e) {
+    metodos.forEach(metodo => {
+        metodo.addEventListener('change', function (e) {
             cita.metodoPago = e.target.value;
         });
     });
@@ -319,7 +326,7 @@ function seleccionarMetodoPago() {
 
 function mostrarAlerta(mensaje, tipo, elemento, desaparece = true) {
     const alertaPrevia = document.querySelector('.alerta');
-    if(alertaPrevia) {
+    if (alertaPrevia) {
         alertaPrevia.remove();
     }
 
@@ -331,7 +338,7 @@ function mostrarAlerta(mensaje, tipo, elemento, desaparece = true) {
     const referencia = document.querySelector(elemento);
     referencia.appendChild(alerta);
 
-    if(desaparece) {
+    if (desaparece) {
         setTimeout(() => {
             alerta.remove();
         }, 3000);
@@ -344,11 +351,11 @@ function mostrarResumen() {
     const resumen = document.querySelector('.contenido-resumen');
 
     // Limpiar el Contenido de Resumen
-    while(resumen.firstChild) {
+    while (resumen.firstChild) {
         resumen.removeChild(resumen.firstChild);
     }
 
-    if(Object.values(cita).includes('') || cita.servicios.length === 0 ) {
+    if (Object.values(cita).includes('') || cita.servicios.length === 0) {
         mostrarAlerta('Faltan datos de Servicios, Barbero, Fecha, Hora o Método de Pago', 'error', '.contenido-resumen', false);
         return;
     }
@@ -400,9 +407,9 @@ function mostrarResumen() {
     const dia = fechaObj.getDate() + 2;
     const year = fechaObj.getFullYear();
 
-    const fechaUTC = new Date( Date.UTC(year, mes, dia));
+    const fechaUTC = new Date(Date.UTC(year, mes, dia));
 
-    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
+    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
     const fechaFormateada = fechaUTC.toLocaleDateString('es-MX', opciones);
 
     const fechaCita = document.createElement('P');
@@ -458,8 +465,8 @@ function confirmarYReservar() {
     const mes = fechaObj.getMonth();
     const dia = fechaObj.getDate() + 2;
     const year = fechaObj.getFullYear();
-    const fechaUTC = new Date( Date.UTC(year, mes, dia));
-    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
+    const fechaUTC = new Date(Date.UTC(year, mes, dia));
+    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
     const fechaFormateada = fechaUTC.toLocaleDateString('es-MX', opciones);
 
     // Armar el resumen para mostrar en la alerta
@@ -521,12 +528,12 @@ async function reservarCita() {
 
     const { nombre, fecha, hora, servicios, id, barberoId, metodoPago } = cita;
 
-    const idServicios = servicios.map( servicio => servicio.id );
+    const idServicios = servicios.map(servicio => servicio.id);
 
     const datos = new FormData();
 
     datos.append('fecha', fecha);
-    datos.append('hora', hora );
+    datos.append('hora', hora);
     datos.append('usuarioId', id);
     datos.append('servicios', idServicios);
     datos.append('barberoId', barberoId);
@@ -541,7 +548,7 @@ async function reservarCita() {
 
         const resultado = await respuesta.json();
 
-        if(resultado.resultado) {
+        if (resultado.resultado) {
             Swal.fire({
                 icon: 'success',
                 title: 'Cita Creada',
@@ -549,7 +556,7 @@ async function reservarCita() {
                     ? `Tu cita fue creada correctamente. Tu turno es el #${resultado.turno}`
                     : 'Tu cita fue creada correctamente',
                 button: 'OK'
-            }).then( () => {
+            }).then(() => {
                 setTimeout(() => {
                     window.location.reload();
                 }, 3000);
