@@ -28,7 +28,7 @@ class LoginController {
                         $_SESSION['nombre'] = $usuario->nombre . " " . $usuario->apellido;
                         $_SESSION['email'] = $usuario->email;
                         $_SESSION['login'] = true;
-                        $_SESSION['barbershop_id'] = $usuario->barbershop_id;
+                        $_SESSION['barbershop_id'] = $usuario->barbershop_id ?? 1;
 
                         // Redireccionamiento
                         if($usuario->admin === "1") {
