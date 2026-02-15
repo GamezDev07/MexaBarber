@@ -105,15 +105,16 @@
 }
 
 // ===== Estilos originales para los divs (compatibilidad) =====
+// ===== Estilos originales para los divs (compatibilidad) =====
 .listado-metodos-pago {
-    display: grid;
-    gap: 2rem;
-
-    @include m.tablet {
-        @include m.grid(3, 2rem);
-    }
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4rem;
+    margin-top: 3rem;
 
     .metodo-pago {
+        flex: 0 1 300px;
         background-color: v.$blanco;
         padding: 3rem;
         border-radius: 1rem;
@@ -122,10 +123,12 @@
         border: 2px solid transparent;
         transition: transform 300ms, box-shadow 300ms, border-color 300ms;
         position: relative;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 
         &:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+            border-color: v.$azul;
         }
 
         &.seleccionado {
@@ -156,6 +159,7 @@
             font-size: 4rem;
             display: block;
             margin: 0 0 1rem 0;
+            color: v.$azul; // Highlight icon
         }
 
         &__nombre {
@@ -169,6 +173,7 @@
             color: v.$gris-oscuro;
             margin: 0;
             font-size: 1.4rem;
+            line-height: 1.5;
         }
     }
 }
