@@ -78,8 +78,8 @@
         <form id="metodos-pago-form" class="formulario">
             <div class="campo">
                 <div class="checkbox-grupo">
-                    <label class="checkbox-label">
-                        <input type="radio" name="metodo-pago" value="efectivo" class="metodo-pago-input">
+                    <input type="radio" id="metodo-efectivo" name="metodo-pago" value="efectivo" class="metodo-pago-input">
+                    <label for="metodo-efectivo" class="checkbox-label">
                         <span class="checkbox-icon">💵</span>
                         <span class="checkbox-texto">
                             <strong>Efectivo</strong>
@@ -89,8 +89,8 @@
                 </div>
 
                 <div class="checkbox-grupo">
-                    <label class="checkbox-label">
-                        <input type="radio" name="metodo-pago" value="tarjeta" class="metodo-pago-input">
+                    <input type="radio" id="metodo-tarjeta" name="metodo-pago" value="tarjeta" class="metodo-pago-input">
+                    <label for="metodo-tarjeta" class="checkbox-label">
                         <span class="checkbox-icon">💳</span>
                         <span class="checkbox-texto">
                             <strong>Tarjeta en Establecimiento</strong>
@@ -100,8 +100,8 @@
                 </div>
 
                 <div class="checkbox-grupo">
-                    <label class="checkbox-label">
-                        <input type="radio" name="metodo-pago" value="transferencia" class="metodo-pago-input">
+                    <input type="radio" id="metodo-transferencia" name="metodo-pago" value="transferencia" class="metodo-pago-input">
+                    <label for="metodo-transferencia" class="checkbox-label">
                         <span class="checkbox-icon">🏦</span>
                         <span class="checkbox-texto">
                             <strong>Transferencia Bancaria</strong>
