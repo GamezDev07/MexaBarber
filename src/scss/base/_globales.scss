@@ -15,7 +15,7 @@ body {
     font-family: v.$fuente_principal;
     font-size: 1.6rem;
     line-height: 1.8;
-    background-color: v.$grisOscuro; // ✅ Fondo global azul
+    background-color: v.$grisOscuro;
     margin: 0;
     padding: 0;
 }
@@ -23,7 +23,7 @@ body {
 .contenedor-app {
     display: flex;
     min-height: 100vh;
-    background-color: v.$grisOscuro; // ✅ Fondo azul
+    background-color: v.$grisOscuro;
 }
 
 .imagen {
@@ -31,36 +31,138 @@ body {
     background-size: cover;
     background-position: center;
     flex: 0 0 50%;
-    opacity: 0.8; // Opcional: hace la imagen semitransparente
 }
 
+// ✅ FIX: App con fondo azul oscuro
 .app {
     flex: 1;
-    background-color: v.$grisOscuro; // ✅ Fondo azul
+    background-color: v.$grisOscuro;
     padding: 3rem;
     overflow-y: auto;
-    color: v.$blanco; // Texto blanco por defecto
+    color: v.$blanco;
 }
 
-// Títulos principales
+// Títulos principales en blanco
 .nombre-pagina,
 .descripcion-pagina {
     color: v.$blanco;
 }
 
-// Secciones con fondo blanco para contenido
+// ✅ FIX: TODAS las secciones con fondo azul oscuro
 .seccion {
-    background-color: v.$blanco;
+    background-color: v.$grisOscuro; // Fondo azul
     padding: 2.5rem;
     border-radius: 1rem;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 
+    // Títulos en blanco
     h2,
-    h3,
-    p,
+    h3 {
+        color: v.$blanco;
+    }
+
+    // Párrafos en blanco
+    p {
+        color: v.$blanco;
+    }
+
+    // Labels en blanco
     label {
-        color: v.$negro;
+        color: v.$blanco;
+    }
+}
+
+// ✅ FIX: Resumen con letras grandes blancas
+.contenido-resumen {
+    h3 {
+        color: v.$blanco;
+        font-size: 2.4rem;
+        margin-bottom: 2rem;
+    }
+
+    p {
+        color: v.$blanco;
+        font-size: 1.8rem;
+
+        span {
+            font-weight: bold;
+            color: v.$blanco;
+        }
+    }
+
+    .total {
+        font-size: 2.4rem;
+        font-weight: bold;
+        color: v.$blanco;
+        border-top: 2px solid rgba(255, 255, 255, 0.3);
+        padding-top: 2rem;
+        margin-top: 2rem;
+    }
+}
+
+// Tarjetas de servicios con fondo semi-blanco
+.servicio {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    padding: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+        transform: translateY(-3px);
+    }
+
+    &.seleccionado {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-color: v.$blanco;
+
+        .nombre-servicio,
+        .precio-servicio {
+            color: v.$grisOscuro;
+        }
+    }
+
+    .nombre-servicio,
+    .precio-servicio {
+        color: v.$blanco;
+    }
+}
+
+// Tarjetas de barberos
+.barbero {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    padding: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+        transform: translateY(-3px);
+    }
+
+    &.seleccionado {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-color: v.$blanco;
+
+        .barbero__nombre,
+        .barbero__especialidad {
+            color: v.$grisOscuro;
+        }
+    }
+
+    &__icono {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+
+    &__nombre,
+    &__especialidad {
+        color: v.$blanco;
     }
 }
 
@@ -71,6 +173,9 @@ body {
     border-radius: 0.8rem;
     margin-bottom: 2rem;
     backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     p {
         color: v.$blanco;
@@ -81,7 +186,7 @@ body {
         color: v.$blanco;
 
         &:hover {
-            color: darken(v.$blanco, 10%);
+            opacity: 0.8;
         }
     }
 }
@@ -91,6 +196,7 @@ body {
     display: flex;
     gap: 1rem;
     margin-bottom: 2rem;
+    flex-wrap: wrap;
 
     button {
         background-color: rgba(255, 255, 255, 0.2);
@@ -100,6 +206,7 @@ body {
         border-radius: 0.5rem;
         cursor: pointer;
         transition: all 0.3s ease;
+        font-size: 1.4rem;
 
         &:hover {
             background-color: rgba(255, 255, 255, 0.3);
@@ -110,6 +217,89 @@ body {
             color: v.$grisOscuro;
             font-weight: bold;
         }
+    }
+}
+
+// Formularios
+.formulario {
+    .campo {
+        margin-bottom: 2rem;
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: v.$blanco;
+            border-radius: 0.5rem;
+            font-size: 1.6rem;
+
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.6);
+            }
+
+            &:focus {
+                outline: none;
+                border-color: v.$blanco;
+                background-color: rgba(255, 255, 255, 0.15);
+            }
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+
+// Botones
+.boton {
+    background-color: v.$blanco;
+    color: v.$grisOscuro;
+    padding: 1.5rem 3rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: darken(v.$blanco, 10%);
+        transform: translateY(-2px);
+    }
+
+    &.ocultar {
+        display: none;
+    }
+}
+
+// Paginación
+.paginacion {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+}
+
+// Alertas
+.alerta {
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    font-weight: bold;
+
+    &.error {
+        background-color: rgba(220, 53, 69, 0.2);
+        border: 2px solid rgba(220, 53, 69, 0.5);
+        color: #ff6b6b;
+    }
+
+    &.exito {
+        background-color: rgba(40, 167, 69, 0.2);
+        border: 2px solid rgba(40, 167, 69, 0.5);
+        color: #51cf66;
     }
 }
 
@@ -140,4 +330,18 @@ h2 {
 
 h3 {
     font-size: 3rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+// Ocultar elementos
+.ocultar {
+    display: none;
+}
+
+// Mostrar secciones
+.mostrar {
+    display: block;
 }

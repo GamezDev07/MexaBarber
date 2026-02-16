@@ -65,16 +65,16 @@ function initFlatpickr() {
         }
     });
 
-    // Configuración del Reloj (Hora)
+    // ✅ FIX: Configuración del Reloj en formato 12 horas (AM/PM)
     flatpickr("#hora", {
         enableTime: true,
         noCalendar: true,
-        dateFormat: "H:i",
+        dateFormat: "h:i K", // ← Formato 12 horas con AM/PM
         minTime: "10:00",
         maxTime: "18:00",
-        time_24hr: true,
+        time_24hr: false, // ← Cambio a formato 12 horas
         allowInput: false,
-        minuteIncrement: 30, // Bloques de 30 minutos
+        minuteIncrement: 30,
         onChange: function (selectedDates, dateStr, instance) {
             cita.hora = dateStr;
         }

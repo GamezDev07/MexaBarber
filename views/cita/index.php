@@ -59,9 +59,7 @@ include_once __DIR__ . '/../templates/barra.php';
 
         </form>
 
-        <div class="paginacion">
-            <button id="siguiente-paso3" class="boton">Siguiente &raquo;</button>
-        </div>
+
     </div>
 
     <!-- Paso 4: Método de Pago -->
