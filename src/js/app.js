@@ -42,10 +42,9 @@ function initFlatpickr() {
     flatpickr("#fecha", {
         minDate: "today",
         dateFormat: "Y-m-d",
-        allowInput: false, // Mejor UX: solo con calendario
+        allowInput: false,
         disable: [
             function (date) {
-                // Deshabilitar domingos
                 return (date.getDay() === 0);
             }
         ],
@@ -65,18 +64,18 @@ function initFlatpickr() {
         }
     });
 
-    // ✅ FIX: Configuración del Reloj en formato 12 horas (AM/PM)
+    // ✅ FIX: Hora en formato 12h con AM/PM
     flatpickr("#hora", {
         enableTime: true,
         noCalendar: true,
-        dateFormat: "h:i K", // ← Formato 12 horas con AM/PM
-        minTime: "10:00",
-        maxTime: "18:00",
-        time_24hr: false, // ← Cambio a formato 12 horas
+        dateFormat: "G:i K", // ← G = hora 12h sin cero inicial, K = AM/PM
+        defaultHour: 10,
+        time_24hr: false, // ← Formato 12 horas
         allowInput: false,
         minuteIncrement: 30,
         onChange: function (selectedDates, dateStr, instance) {
             cita.hora = dateStr;
+            console.log("Hora seleccionada:", dateStr); // Para verificar
         }
     });
 }
