@@ -15,6 +15,23 @@ body {
     font-family: v.$fuente_principal;
     font-size: 1.6rem;
     line-height: 1.8;
+    background-color: v.$grisOscuro; // ✅ Fondo azul oscuro
+    margin: 0;
+    padding: 0;
+}
+
+.contenedor-app {
+    display: flex;
+    min-height: 100vh;
+    background-color: v.$grisOscuro; // ✅ Fondo azul oscuro
+}
+
+.app {
+    flex: 1;
+    background-color: v.$blanco;
+    padding: 3rem;
+    border-radius: 1rem;
+    margin: 2rem;
 }
 
 p {
