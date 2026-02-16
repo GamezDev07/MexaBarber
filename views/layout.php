@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="app-url" content="<?php echo APP_URL; ?>">
     <title>App Salón</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;700;900&display=swap" rel="stylesheet">
+
+    <!-- ✅ Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+
     <link rel="stylesheet" href="/build/css/app.css">
 </head>
 
@@ -20,11 +22,17 @@
         </div>
     </div>
 
+    <!-- ✅ Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <?php
-    echo $script ?? '';
-    ?>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 
+    <!-- ✅ SweetAlert2 (para confirmaciones) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- ✅ Tu JavaScript -->
+    <script src="/build/js/app.js"></script>
+
+    <?php echo $script ?? ''; ?>
 </body>
 
 </html>

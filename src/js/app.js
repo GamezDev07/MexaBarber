@@ -30,70 +30,72 @@ function iniciarApp() {
     idCliente();
     nombreCliente();
 
-    // CAMBIO AQUÍ: Usamos la nueva función del calendario
+    // Flatpickr para fecha y hora
     initFlatpickr();
 
     seleccionarMetodoPago();
     mostrarResumen();
 }
 
-// Agrega esta nueva función al final de tu archivo o donde prefieras
 function initFlatpickr() {
     // Configuración del Calendario (Fecha)
     flatpickr("#fecha", {
-        minDate: "today", // No permite fechas pasadas
+        minDate: "today",
         dateFormat: "Y-m-d",
-        allowInput: true, // Permitir escritura manual
+        allowInput: false, // Mejor UX: solo con calendario
         disable: [
             function (date) {
-                // Deshabilitar fines de semana (0=Domingo, 6=Sábado)
-                return (date.getDay() === 0 || date.getDay() === 6);
+                // Deshabilitar domingos
+                return (date.getDay() === 0);
             }
         ],
         locale: {
-            firstDayOfWeek: 1 // Iniciar semana en Lunes
+            firstDayOfWeek: 1,
+            weekdays: {
+                shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            },
+            months: {
+                shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                longhand: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            },
         },
         onChange: function (selectedDates, dateStr, instance) {
             cita.fecha = dateStr;
-            console.log("Fecha seleccionada: ", cita.fecha); // Para verificar
         }
     });
 
     // Configuración del Reloj (Hora)
     flatpickr("#hora", {
         enableTime: true,
-        noCalendar: true, // Solo reloj
+        noCalendar: true,
         dateFormat: "H:i",
-        minTime: "10:00", // Horario apertura
-        maxTime: "18:00", // Horario cierre
+        minTime: "10:00",
+        maxTime: "18:00",
         time_24hr: true,
-        allowInput: true, // Permitir escritura manual
+        allowInput: false,
+        minuteIncrement: 30, // Bloques de 30 minutos
         onChange: function (selectedDates, dateStr, instance) {
             cita.hora = dateStr;
-            console.log("Hora seleccionada: ", cita.hora); // Para verificar
         }
     });
 }
 
 function mostrarSeccion() {
-    // Ocultar la sección que tenga la clase de mostrar
     const seccionAnterior = document.querySelector('.mostrar');
     if (seccionAnterior) {
         seccionAnterior.classList.remove('mostrar');
     }
 
-    // Seleccionar la sección con el paso...
     const pasoSelector = `#paso-${paso}`;
     const seccion = document.querySelector(pasoSelector);
     seccion.classList.add('mostrar');
 
-    // Quita la clase de actual al tab anterior
     const tabAnterior = document.querySelector('.actual');
     if (tabAnterior) {
         tabAnterior.classList.remove('actual');
     }
 
-    // Resalta el tab actual
     const tab = document.querySelector(`[data-paso="${paso}"]`);
     tab.classList.add('actual');
 }
@@ -120,7 +122,6 @@ function botonesPaginador() {
     } else if (paso === pasoFinal) {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.add('ocultar');
-
         mostrarResumen();
     } else {
         paginaAnterior.classList.remove('ocultar');
@@ -138,6 +139,7 @@ function paginaAnterior() {
         botonesPaginador();
     })
 }
+
 function paginaSiguiente() {
     const paginaSiguiente = document.querySelector('#siguiente');
     paginaSiguiente.addEventListener('click', function () {
@@ -145,22 +147,6 @@ function paginaSiguiente() {
         paso++;
         botonesPaginador();
     })
-}
-
-// Botón siguiente específico para Paso 3
-function siguientePaso3() {
-    const botonSiguiente = document.querySelector('#siguiente-paso3');
-    if (botonSiguiente) {
-        botonSiguiente.addEventListener('click', function () {
-            // Validar que fecha y hora están completas
-            if (!cita.fecha || !cita.hora) {
-                mostrarAlerta('Por favor, completa la fecha y hora', 'error', '.formulario');
-                return;
-            }
-            paso = 4;
-            botonesPaginador();
-        });
-    }
 }
 
 // --- PASO 1: SERVICIOS ---
@@ -177,14 +163,10 @@ async function consultarAPI() {
 }
 
 function mostrarServicios(servicios) {
-    // Limpiar skeletons (Método robusto)
     const serviciosDiv = document.querySelector('#servicios');
-    if (serviciosDiv) {
-        serviciosDiv.innerHTML = '';
-    }
 
-    // Backup: Remover cualquier skeleton residual por clase
-    document.querySelectorAll('.servicio-skeleton').forEach(skeleton => skeleton.remove());
+    // ✅ SOLUCIÓN: Limpiar skeletons completamente
+    serviciosDiv.innerHTML = '';
 
     servicios.forEach(servicio => {
         const { id, nombre, precio } = servicio;
@@ -207,7 +189,7 @@ function mostrarServicios(servicios) {
         servicioDiv.appendChild(nombreServicio);
         servicioDiv.appendChild(precioServicio);
 
-        document.querySelector('#servicios').appendChild(servicioDiv);
+        serviciosDiv.appendChild(servicioDiv);
     });
 }
 
@@ -229,25 +211,19 @@ function seleccionarServicio(servicio) {
 // --- PASO 2: BARBEROS ---
 
 async function consultarBarberos() {
-    console.log('🔍 consultarBarberos() called');
     try {
         const url = window.location.origin + '/api/barberos';
-        console.log('📡 Fetching:', url);
         const resultado = await fetch(url);
-        console.log('✅ Response received:', resultado.status);
         const barberos = await resultado.json();
-        console.log('📦 Barberos data:', barberos);
-        console.log('📊 Number of barberos:', barberos.length);
         mostrarBarberos(barberos);
     } catch (error) {
-        console.error('❌ Error in consultarBarberos:', error);
+        console.error('Error cargando barberos:', error);
     }
 }
 
 function mostrarBarberos(barberos) {
-    console.log('🎨 mostrarBarberos() called with:', barberos);
     const contenedor = document.querySelector('#barberos');
-    console.log('📍 Container element:', contenedor);
+    contenedor.innerHTML = ''; // Limpiar contenido previo
 
     // Opción "Sin preferencia"
     const sinPreferencia = document.createElement('DIV');
@@ -308,13 +284,11 @@ function seleccionarBarbero(id, nombre) {
     cita.barberoId = id;
     cita.barberoNombre = nombre;
 
-    // Quitar seleccionado anterior
     const barberoAnterior = document.querySelector('.barbero.seleccionado');
     if (barberoAnterior) {
         barberoAnterior.classList.remove('seleccionado');
     }
 
-    // Marcar seleccionado
     const barberoSeleccionado = document.querySelector(`[data-barbero-id="${id}"]`);
     if (barberoSeleccionado) {
         barberoSeleccionado.classList.add('seleccionado');
@@ -326,11 +300,10 @@ function seleccionarBarbero(id, nombre) {
 function idCliente() {
     cita.id = document.querySelector('#id').value;
 }
+
 function nombreCliente() {
     cita.nombre = document.querySelector('#nombre').value;
 }
-
-
 
 // --- PASO 4: MÉTODO DE PAGO ---
 
@@ -371,7 +344,6 @@ function mostrarAlerta(mensaje, tipo, elemento, desaparece = true) {
 function mostrarResumen() {
     const resumen = document.querySelector('.contenido-resumen');
 
-    // Limpiar el Contenido de Resumen
     while (resumen.firstChild) {
         resumen.removeChild(resumen.firstChild);
     }
@@ -383,15 +355,13 @@ function mostrarResumen() {
 
     const { nombre, fecha, hora, servicios, barberoNombre, metodoPago } = cita;
 
-    // Heading para Servicios en Resumen
     const headingServicios = document.createElement('H3');
     headingServicios.textContent = 'Resumen de Servicios';
     resumen.appendChild(headingServicios);
 
-    // Iterando y mostrando los servicios
     let totalPrecio = 0;
     servicios.forEach(servicio => {
-        const { id, precio, nombre } = servicio;
+        const { precio, nombre } = servicio;
         const contenedorServicio = document.createElement('DIV');
         contenedorServicio.classList.add('contenedor-servicio');
 
@@ -408,13 +378,11 @@ function mostrarResumen() {
         totalPrecio += parseFloat(precio);
     });
 
-    // Total
     const totalDiv = document.createElement('P');
     totalDiv.classList.add('total');
     totalDiv.innerHTML = `<span>Total:</span> $${totalPrecio.toFixed(2)}`;
     resumen.appendChild(totalDiv);
 
-    // Heading para Cita en Resumen
     const headingCita = document.createElement('H3');
     headingCita.textContent = 'Resumen de Cita';
     resumen.appendChild(headingCita);
@@ -422,14 +390,12 @@ function mostrarResumen() {
     const nombreCliente = document.createElement('P');
     nombreCliente.innerHTML = `<span>Nombre:</span> ${nombre}`;
 
-    // Formatear la fecha en español
     const fechaObj = new Date(fecha);
     const mes = fechaObj.getMonth();
     const dia = fechaObj.getDate() + 2;
     const year = fechaObj.getFullYear();
 
     const fechaUTC = new Date(Date.UTC(year, mes, dia));
-
     const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
     const fechaFormateada = fechaUTC.toLocaleDateString('es-MX', opciones);
 
@@ -450,7 +416,6 @@ function mostrarResumen() {
     const pagoCita = document.createElement('P');
     pagoCita.innerHTML = `<span>Método de Pago:</span> ${metodoPagoMap[metodoPago] || metodoPago}`;
 
-    // Boton para Crear una cita
     const botonReservar = document.createElement('BUTTON');
     botonReservar.classList.add('boton');
     botonReservar.textContent = 'Confirmar';
@@ -465,11 +430,9 @@ function mostrarResumen() {
     resumen.appendChild(botonReservar);
 }
 
-// Función para confirmar antes de reservar
 function confirmarYReservar() {
     const { nombre, fecha, hora, servicios, barberoNombre, metodoPago } = cita;
 
-    // Calcular total
     let totalPrecio = 0;
     servicios.forEach(servicio => {
         totalPrecio += parseFloat(servicio.precio);
@@ -481,7 +444,6 @@ function confirmarYReservar() {
         'transferencia': 'Transferencia Bancaria'
     };
 
-    // Formatear fecha
     const fechaObj = new Date(fecha);
     const mes = fechaObj.getMonth();
     const dia = fechaObj.getDate() + 2;
@@ -490,7 +452,6 @@ function confirmarYReservar() {
     const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
     const fechaFormateada = fechaUTC.toLocaleDateString('es-MX', opciones);
 
-    // Armar el resumen para mostrar en la alerta
     let resumenHTML = `
         <div style="text-align: left; margin: 20px 0;">
             <h3>Resumen de tu Cita</h3>
@@ -546,13 +507,11 @@ function confirmarYReservar() {
 }
 
 async function reservarCita() {
-
-    const { nombre, fecha, hora, servicios, id, barberoId, metodoPago } = cita;
+    const { fecha, hora, servicios, id, barberoId, metodoPago } = cita;
 
     const idServicios = servicios.map(servicio => servicio.id);
 
     const datos = new FormData();
-
     datos.append('fecha', fecha);
     datos.append('hora', hora);
     datos.append('usuarioId', id);
