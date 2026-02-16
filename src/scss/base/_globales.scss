@@ -72,15 +72,14 @@ body {
     }
 }
 
-// ✅ FIX: Resumen con letras grandes blancas
-// ✅ FIX: Resumen con fondo azul oscuro y letras blancas
+// ✅ FIX: Resumen con fondo azul oscuro FORZADO
 .contenido-resumen {
-    background-color: v.$grisOscuro; // ✅ Fondo azul oscuro
+    background-color: v.$grisOscuro !important; // ✅ Forzar fondo azul
     padding: 3rem;
     border-radius: 1rem;
 
     h3 {
-        color: v.$blanco; // ✅ Títulos blancos
+        color: v.$blanco !important; // ✅ Títulos blancos forzados
         font-size: 2.6rem;
         margin-bottom: 2rem;
         border-bottom: 2px solid rgba(255, 255, 255, 0.2);
@@ -88,13 +87,13 @@ body {
     }
 
     p {
-        color: v.$blanco; // ✅ Texto blanco
+        color: v.$blanco !important; // ✅ Texto blanco forzado
         font-size: 1.8rem;
         margin-bottom: 1.5rem;
 
         span {
             font-weight: bold;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.9) !important;
         }
     }
 
@@ -107,14 +106,18 @@ body {
 
         p {
             margin: 0.5rem 0;
-            color: v.$blanco;
+            color: v.$blanco !important;
+
+            span {
+                color: v.$blanco !important;
+            }
         }
     }
 
     .total {
         font-size: 2.8rem;
         font-weight: bold;
-        color: v.$blanco; // ✅ Total en blanco
+        color: v.$blanco !important; // ✅ Total en blanco forzado
         background-color: rgba(255, 255, 255, 0.15);
         padding: 2rem;
         border-radius: 0.8rem;
@@ -123,7 +126,7 @@ body {
         border: 2px solid rgba(255, 255, 255, 0.3);
 
         span {
-            color: v.$blanco;
+            color: v.$blanco !important;
         }
     }
 
@@ -297,7 +300,7 @@ body {
     }
 }
 
-// ✅ FIX: Métodos de Pago con fondo azul claro y efecto glow
+// ✅ FIX: Métodos de Pago - Fondo más oscuro + Texto negro visible
 .campo {
     .checkbox-grupo {
         display: inline-block;
@@ -322,8 +325,8 @@ body {
         flex-direction: column;
         align-items: center;
         padding: 2.5rem 1.5rem;
-        background-color: rgba(26, 35, 50, 0.3); // ✅ Fondo azul claro semi-transparente
-        border: 2px solid rgba(255, 255, 255, 0.2);
+        background-color: rgba(255, 255, 255, 0.85); // ✅ Fondo blanco semi-opaco
+        border: 2px solid rgba(26, 35, 50, 0.3);
         border-radius: 1.5rem;
         cursor: pointer;
         transition: all 0.3s ease;
@@ -331,10 +334,10 @@ body {
         position: relative;
 
         &:hover {
-            background-color: rgba(26, 35, 50, 0.5);
-            border-color: rgba(255, 255, 255, 0.4);
+            background-color: rgba(255, 255, 255, 0.95);
+            border-color: rgba(26, 35, 50, 0.5);
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .checkbox-icon {
@@ -349,12 +352,13 @@ body {
                 display: block;
                 margin-bottom: 0.8rem;
                 font-size: 1.8rem;
-                color: v.$blanco;
+                color: #1a2332; // ✅ Texto negro/azul oscuro
+                font-weight: 700;
             }
 
             small {
                 font-size: 1.3rem;
-                color: rgba(255, 255, 255, 0.7);
+                color: #555; // ✅ Texto gris oscuro
             }
         }
     }
@@ -364,26 +368,31 @@ body {
 
         // ✅ Estado seleccionado con efecto GLOW
         &:checked+.checkbox-label {
-            background-color: rgba(26, 35, 50, 0.8);
-            border-color: v.$blanco;
+            background-color: rgba(255, 255, 255, 1);
+            border-color: #1a2332;
             border-width: 3px;
 
             // ✅ EFECTO GLOW notorio
             box-shadow:
-                0 0 20px rgba(255, 255, 255, 0.6),
-                0 0 40px rgba(255, 255, 255, 0.4),
-                0 0 60px rgba(255, 255, 255, 0.2),
-                inset 0 0 20px rgba(255, 255, 255, 0.1);
+                0 0 20px rgba(26, 35, 50, 0.6),
+                0 0 40px rgba(26, 35, 50, 0.4),
+                0 0 60px rgba(26, 35, 50, 0.2),
+                inset 0 0 20px rgba(26, 35, 50, 0.05);
 
             transform: scale(1.05);
 
-            .checkbox-texto strong {
-                color: v.$blanco;
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            .checkbox-texto {
+                strong {
+                    color: #1a2332;
+                    text-shadow: 0 0 10px rgba(26, 35, 50, 0.3);
+                }
+
+                small {
+                    color: #333;
+                }
             }
         }
     }
-
 }
 
 // Botones
