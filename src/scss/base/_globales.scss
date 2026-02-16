@@ -15,7 +15,7 @@ body {
     font-family: v.$fuente_principal;
     font-size: 1.6rem;
     line-height: 1.8;
-    background-color: v.$grisOscuro; // ✅ Fondo azul oscuro
+    background-color: v.$grisOscuro; // ✅ Fondo global azul
     margin: 0;
     padding: 0;
 }
@@ -23,19 +23,98 @@ body {
 .contenedor-app {
     display: flex;
     min-height: 100vh;
-    background-color: v.$grisOscuro; // ✅ Fondo azul oscuro
+    background-color: v.$grisOscuro; // ✅ Fondo azul
+}
+
+.imagen {
+    background-image: url(../img/imagen.jpg);
+    background-size: cover;
+    background-position: center;
+    flex: 0 0 50%;
+    opacity: 0.8; // Opcional: hace la imagen semitransparente
 }
 
 .app {
     flex: 1;
-    background-color: v.$blanco;
+    background-color: v.$grisOscuro; // ✅ Fondo azul
     padding: 3rem;
-    border-radius: 1rem;
-    margin: 2rem;
+    overflow-y: auto;
+    color: v.$blanco; // Texto blanco por defecto
 }
 
+// Títulos principales
+.nombre-pagina,
+.descripcion-pagina {
+    color: v.$blanco;
+}
+
+// Secciones con fondo blanco para contenido
+.seccion {
+    background-color: v.$blanco;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+
+    h2,
+    h3,
+    p,
+    label {
+        color: v.$negro;
+    }
+}
+
+// Barra superior
+.barra {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.8rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+
+    p {
+        color: v.$blanco;
+        margin: 0;
+    }
+
+    a {
+        color: v.$blanco;
+
+        &:hover {
+            color: darken(v.$blanco, 10%);
+        }
+    }
+}
+
+// Tabs
+.tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    button {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: v.$blanco;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        &.actual {
+            background-color: v.$blanco;
+            color: v.$grisOscuro;
+            font-weight: bold;
+        }
+    }
+}
+
+// Resto de estilos globales
 p {
-    color: v.$negro;
     font-size: 2rem;
 }
 
@@ -43,10 +122,6 @@ p {
     max-width: 120rem;
     margin: 0 auto;
     width: 95%;
-}
-
-a {
-    color: v.$negro;
 }
 
 h1,
@@ -65,9 +140,4 @@ h2 {
 
 h3 {
     font-size: 3rem;
-}
-
-img {
-    max-width: 100%;
-    display: block;
 }
