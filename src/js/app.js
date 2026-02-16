@@ -23,17 +23,54 @@ function iniciarApp() {
     botonesPaginador();
     paginaSiguiente();
     paginaAnterior();
-    siguientePaso3(); // Botón siguiente en paso 3
 
     consultarAPI(); // Servicios
     consultarBarberos(); // Barberos
 
     idCliente();
     nombreCliente();
-    initFlatpickr(); // Nueva función para fecha y hora
-    seleccionarMetodoPago();
 
+    // CAMBIO AQUÍ: Usamos la nueva función del calendario
+    initFlatpickr();
+
+    seleccionarMetodoPago();
     mostrarResumen();
+}
+
+// Agrega esta nueva función al final de tu archivo o donde prefieras
+function initFlatpickr() {
+    // Configuración del Calendario (Fecha)
+    flatpickr("#fecha", {
+        minDate: "today", // No permite fechas pasadas
+        dateFormat: "Y-m-d",
+        disable: [
+            function (date) {
+                // Deshabilitar fines de semana (0=Domingo, 6=Sábado)
+                return (date.getDay() === 0 || date.getDay() === 6);
+            }
+        ],
+        locale: {
+            firstDayOfWeek: 1 // Iniciar semana en Lunes
+        },
+        onChange: function (selectedDates, dateStr, instance) {
+            cita.fecha = dateStr;
+            console.log("Fecha seleccionada: ", cita.fecha); // Para verificar
+        }
+    });
+
+    // Configuración del Reloj (Hora)
+    flatpickr("#hora", {
+        enableTime: true,
+        noCalendar: true, // Solo reloj
+        dateFormat: "H:i",
+        minTime: "10:00", // Horario apertura
+        maxTime: "18:00", // Horario cierre
+        time_24hr: true,
+        onChange: function (selectedDates, dateStr, instance) {
+            cita.hora = dateStr;
+            console.log("Hora seleccionada: ", cita.hora); // Para verificar
+        }
+    });
 }
 
 function mostrarSeccion() {
@@ -285,38 +322,7 @@ function nombreCliente() {
     cita.nombre = document.querySelector('#nombre').value;
 }
 
-function initFlatpickr() {
-    // Configuración del Calendario
-    flatpickr("#fecha", {
-        minDate: "today",
-        dateFormat: "Y-m-d",
-        disable: [
-            function (date) {
-                // Deshabilitar fines de semana (0=Domingo, 6=Sábado)
-                return (date.getDay() === 0 || date.getDay() === 6);
-            }
-        ],
-        locale: {
-            firstDayOfWeek: 1 // Lunes
-        },
-        onChange: function (selectedDates, dateStr, instance) {
-            cita.fecha = dateStr;
-        }
-    });
 
-    // Configuración del Reloj
-    flatpickr("#hora", {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        minTime: "10:00",
-        maxTime: "18:00",
-        time_24hr: true,
-        onChange: function (selectedDates, dateStr, instance) {
-            cita.hora = dateStr;
-        }
-    });
-}
 
 // --- PASO 4: MÉTODO DE PAGO ---
 
