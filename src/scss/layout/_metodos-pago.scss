@@ -4,7 +4,10 @@
 // ===== Estilos para Radio Buttons (Métodos de Pago) =====
 #metodos-pago-form .campo {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 1.5rem;
 
     .checkbox-grupo {

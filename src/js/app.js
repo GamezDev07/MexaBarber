@@ -43,6 +43,7 @@ function initFlatpickr() {
     flatpickr("#fecha", {
         minDate: "today", // No permite fechas pasadas
         dateFormat: "Y-m-d",
+        allowInput: true, // Permitir escritura manual
         disable: [
             function (date) {
                 // Deshabilitar fines de semana (0=Domingo, 6=Sábado)
@@ -66,6 +67,7 @@ function initFlatpickr() {
         minTime: "10:00", // Horario apertura
         maxTime: "18:00", // Horario cierre
         time_24hr: true,
+        allowInput: true, // Permitir escritura manual
         onChange: function (selectedDates, dateStr, instance) {
             cita.hora = dateStr;
             console.log("Hora seleccionada: ", cita.hora); // Para verificar
@@ -175,8 +177,14 @@ async function consultarAPI() {
 }
 
 function mostrarServicios(servicios) {
+    // Limpiar skeletons (Método robusto)
     const serviciosDiv = document.querySelector('#servicios');
-    serviciosDiv.innerHTML = ''; // Limpiar skeletons
+    if (serviciosDiv) {
+        serviciosDiv.innerHTML = '';
+    }
+
+    // Backup: Remover cualquier skeleton residual por clase
+    document.querySelectorAll('.servicio-skeleton').forEach(skeleton => skeleton.remove());
 
     servicios.forEach(servicio => {
         const { id, nombre, precio } = servicio;

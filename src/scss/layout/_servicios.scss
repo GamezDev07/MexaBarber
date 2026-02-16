@@ -78,7 +78,7 @@
 // Skeleton Loading
 .servicio-skeleton {
     height: 15rem; // Equivalent to 150px
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, v.$azul-oscuro 25%, lighten(v.$azul-oscuro, 10%) 50%, v.$azul-oscuro 75%);
     background-size: 200% 100%;
     animation: loading 1.5s infinite;
     border-radius: 1rem;

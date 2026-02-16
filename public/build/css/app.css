@@ -588,7 +588,7 @@ p {
 
 .servicio-skeleton {
   height: 15rem;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background: linear-gradient(90deg, #1e40af 25%, rgb(38.1707317073, 80.2975609756, 217.8292682927) 50%, #1e40af 75%);
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
   border-radius: 1rem;
@@ -767,7 +767,10 @@ p {
 
 #metodos-pago-form .campo {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   gap: 1.5rem;
 }
 #metodos-pago-form .campo .checkbox-grupo {
